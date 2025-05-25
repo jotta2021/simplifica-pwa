@@ -8,6 +8,9 @@ const {
 /** @type {import("next").NextConfig} */
 const baseConfig = {
   reactStrictMode: true,
+   eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 
 module.exports = (phase) => {

@@ -11,8 +11,7 @@ import { Progress } from "@/components/ui/progress";
 import { Cell, Legend, Pie, PieChart } from "recharts";
 import { Tooltip } from "@/components/ui/tooltip";
 import BottomTab from "@/_components/bottomTab";
-import Link from "next/link";
-import { Home, BarChart2, User } from "lucide-react";
+
 const Painel: React.FC = () => {
   const transactions = [
     {

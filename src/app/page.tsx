@@ -28,7 +28,7 @@ const router = useRouter()
   try {
       const {email,password} = data 
       const user =await signInWithEmailAndPassword(auth,email,password)
-  
+  console.log(user)
     } catch (error:any) {
       const errorMessage =error.message
       toast({

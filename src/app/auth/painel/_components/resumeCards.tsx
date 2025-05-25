@@ -3,7 +3,6 @@ import React from "react";
 import { GiMoneyStack } from "react-icons/gi";
 import { GoArrowUp } from "react-icons/go";
 import { GoArrowDown } from "react-icons/go";
-import { TbMoneybag } from "react-icons/tb";
 
 const ResumeCards: React.FC = () => {
   return (
