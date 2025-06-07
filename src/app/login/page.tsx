@@ -1,9 +1,10 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/ui/input"
 import Image from "next/image";
 import Link from "next/link";
+
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,11 +16,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Loader2 } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+
+
 const formSchema = z.object({
-  name: z.string().min(1, { message: "Nome é obrigatório" }),
   email: z
     .string()
     .min(1, { message: "Email é obrigatório" })
@@ -28,45 +31,39 @@ const formSchema = z.object({
     .string()
     .min(8, { message: "Senha deve ter no mínimo 8 caracteres" }),
 });
-export default function Register() {
+export default function Login() {
+  const router = useRouter()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
       email: "",
       password: "",
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const {name,email,password} = values
-    console.log(name,email,password)
-    await authClient.signUp.email({
-      email: email,
-      name: name,
-      password: password,
-      callbackURL: "/",
-    },
+    const {email,password} = values
+   await authClient.signIn.email({
+    email,
+    password,
+    callbackURL: "/painel",
+   },
   {
-    onSuccess:()=> {
-toast.success("Cadastro realizado com sucesso")
-form.reset()
+    onError:(error)=> {
+ 
+     if(error.error.message==='Invalid email or password'){
+      toast.error("Email ou senha inválidos")
+     }else{
+      toast.error("Erro ao fazer login")
+     }
     },
-    onError:(error:any)=> {
-     
-      if(error.error.message==='User already exists'){
-        toast.error("Email já cadastrado")
-       }else{
-        toast.error("Erro ao cadastrar")
-       }
+    onSuccess:()=> {
+      toast.success("Login realizado com sucesso")
+      router.push("/painel")
     }
+  })
+
   }
-  )
-  
-  }
-
-
-
 
   return (
     <div
@@ -86,20 +83,6 @@ form.reset()
 
         <Form {...form} >
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 my-4">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Nome Completo</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Informe seu nome" {...field} />
-                  </FormControl>
-
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
             <FormField
               control={form.control}
               name="email"
@@ -138,7 +121,7 @@ form.reset()
 
                 <Loader2 className="w-4 h-4 animate-spin" />
                 :
-                'Cadastrar'
+                'Entrar'
               }
               
             </Button>
@@ -165,9 +148,9 @@ form.reset()
 
               <div className="flex items-center justify-center text-sm">
                 <p>
-                  Já tem uma conta?{" "}
-                  <Link href={"/login"} className="text-green-500">
-                    faça login
+                  Ainda não tem uma conta?{" "}
+                  <Link href={"/"} className="text-green-500">
+                    se cadastre
                   </Link>
                 </p>
               </div>
