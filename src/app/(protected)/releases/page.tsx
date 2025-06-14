@@ -20,10 +20,8 @@ import ButtonAdd from "./_components/buttonAdd";
 import { redirect } from "next/navigation";
 import MobileTransactions from "./_components/mobile-transactions";
 import { parseISO, subDays, startOfDay, endOfDay } from "date-fns";
-type Props = {
-  searchParams?: Record<string, string | string[] | undefined>;
-};
-const Releases = async ({searchParams}: Props) => {
+
+const Releases = async ({ searchParams }: { searchParams?: Record<string, string | string[]> }) => {
     const session = await auth.api.getSession({
         headers: await headers()
     })
