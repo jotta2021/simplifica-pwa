@@ -45,7 +45,7 @@ const ButtonsActions: React.FC<ButtonsActionsProps> = ({release}) => {
         <Pencil size={16} />
       </Button>
     </DialogTrigger>
-    <DialogContent>
+    <DialogContent className='max-md:w-[90%]'>
         <UpsertReleaseForm type={release.type === "INCOME" ? "INCOME" : "EXPENSE"} onSuccess={() =>setOpenDialog(false) }  release={release}/>
     </DialogContent>
   </Dialog>
@@ -56,7 +56,7 @@ const ButtonsActions: React.FC<ButtonsActionsProps> = ({release}) => {
         <Trash size={16} />
       </Button>
     </AlertDialogTrigger>
-    <AlertDialogContent>
+    <AlertDialogContent className='max-md:w-[90%]'>
         <AlertDialogHeader>
             <AlertDialogTitle>Tem certeza que deseja deletar este lançamento?</AlertDialogTitle>
             <AlertDialogDescription>
