@@ -20,9 +20,13 @@ import ButtonAdd from "./_components/buttonAdd";
 import { redirect } from "next/navigation";
 import MobileTransactions from "./_components/mobile-transactions";
 import { parseISO, subDays, startOfDay, endOfDay } from "date-fns";
+type PageProps = {
+  params: {};  // se você não está usando params da rota dinâmica
+  searchParams?: Record<string, string | string[]>;
+};
 
-const Releases = async ({ searchParams }: { searchParams?: Record<string, string | string[]> }) => {
-    const session = await auth.api.getSession({
+const Releases = async ({ searchParams }: PageProps) => {   
+  const session = await auth.api.getSession({
         headers: await headers()
     })
     if(!session?.user?.id){
