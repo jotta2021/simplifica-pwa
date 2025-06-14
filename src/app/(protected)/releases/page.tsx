@@ -20,13 +20,14 @@ import ButtonAdd from "./_components/buttonAdd";
 import { redirect } from "next/navigation";
 import MobileTransactions from "./_components/mobile-transactions";
 import { parseISO, subDays, startOfDay, endOfDay } from "date-fns";
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+
 type PageProps = {
   params: Record<string, string>;
   searchParams?: Record<string, string | string[]>;
 };
 
-const Releases = async ({ searchParams }: PageProps) => { 
+
+const Releases = async ({ params, searchParams }: PageProps) => {
   const session = await auth.api.getSession({
         headers: await headers()
     })
