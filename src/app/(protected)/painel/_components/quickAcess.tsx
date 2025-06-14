@@ -20,7 +20,7 @@ const QuickAcess: React.FC<{categories: Category[]}> = ({categories}) => {
     </button> 
       </DialogTrigger>
       <DialogContent className="max-md:w-[90%]">
-       <UpsertReleaseForm  type='EXPENSE' onSuccess={() => {setIsOpen(false)}} categories={categories}/>
+       <UpsertReleaseForm  type='EXPENSE' onSuccess={() => {setIsOpen(false)}} />
       </DialogContent>
       </Dialog>
     <Dialog open={isOpenIncome} onOpenChange={setIsOpenIncome}>
@@ -31,7 +31,7 @@ const QuickAcess: React.FC<{categories: Category[]}> = ({categories}) => {
     </button> 
       </DialogTrigger>
       <DialogContent className="max-md:w-[90%]">
-       <UpsertReleaseForm  type='INCOME' onSuccess={() => {setIsOpenIncome(false)}} categories={categories}/>
+       <UpsertReleaseForm  type='INCOME' onSuccess={() => {setIsOpenIncome(false)}} />
       </DialogContent>
       </Dialog>
    
