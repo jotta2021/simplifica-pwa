@@ -197,6 +197,9 @@ const endofMonthLastMonth = new Date(
       if (transaction.type === "INCOME") {
         return acc + transaction.amount;
       }
+      if (transaction.type === "EXPENSE") {
+        return acc - transaction.amount;
+      }
       return acc;
     }, 0);
   
