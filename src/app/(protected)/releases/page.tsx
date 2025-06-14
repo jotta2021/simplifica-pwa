@@ -20,7 +20,10 @@ import ButtonAdd from "./_components/buttonAdd";
 import { redirect } from "next/navigation";
 import MobileTransactions from "./_components/mobile-transactions";
 import { parseISO, subDays, startOfDay, endOfDay } from "date-fns";
-const Releases = async ({searchParams}: {searchParams:{filter?:string}}) => {
+interface PageProps {
+  searchParams?: Record<string, string  | undefined>;
+}
+const Releases = async ({searchParams}: PageProps) => {
     const session = await auth.api.getSession({
         headers: await headers()
     })
@@ -29,7 +32,7 @@ const Releases = async ({searchParams}: {searchParams:{filter?:string}}) => {
     }
  
 
-    const filter  = searchParams.filter || '7days'
+    const filter  = searchParams?.filter || 'now'
 let dateFilter = {};
 const now  = new Date()
 

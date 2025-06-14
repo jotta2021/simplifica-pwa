@@ -5,7 +5,7 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { useRouter, useSearchParams } from "next/navigation";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 interface Props{
-  filter: string
+  filter?: string | undefined
 }
 const HeaderFilter = ({filter}:Props) => {
 const router = useRouter()
