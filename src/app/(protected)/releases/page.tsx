@@ -20,12 +20,8 @@ import ButtonAdd from "./_components/buttonAdd";
 import MobileTransactions from "./_components/mobile-transactions";
 import { subDays, startOfDay, endOfDay } from "date-fns";
 
-type ReleasesPageProps = {
-  params: Record<string, string>; // Caso futuramente precise
-  searchParams?: Record<string, string | string[]>;
-};
 
-export default async function ReleasesPage({ params, searchParams }: ReleasesPageProps) {
+export default async function ReleasesPage() {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -33,8 +29,8 @@ export default async function ReleasesPage({ params, searchParams }: ReleasesPag
   if (!session?.user?.id) {
     redirect("/login");
   }
-
-  const rawFilter = searchParams?.filter;
+/**
+ *  const rawFilter = searchParams?.filter;
   const filter = Array.isArray(rawFilter) ? rawFilter[0] : rawFilter || "now";
 
   let dateFilter = {};
@@ -74,11 +70,13 @@ export default async function ReleasesPage({ params, searchParams }: ReleasesPag
       },
     };
   }
+ */
+ 
 
   const transactions = await prisma.transactions.findMany({
     where: {
       userId: session.user.id,
-      ...dateFilter,
+      //...dateFilter,
     },
     include: {
       category: true,
@@ -119,7 +117,7 @@ export default async function ReleasesPage({ params, searchParams }: ReleasesPag
         <Card>
           <CardHeader className="flex flex-row justify-between items-center ">
             <CardTitle>Histórico de transações</CardTitle>
-            <HeaderFilter filter={filter} />
+            <HeaderFilter  />
           </CardHeader>
           <CardContent className="space-y-2 max-md:px-1">
             <div className="hidden max-md:block">
