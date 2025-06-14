@@ -161,12 +161,12 @@ const UpsertCategorieForm: React.FC<UpsertCategorieFormProps> = ({ onSuccess, ca
                     <AccordionItem value="item-1">
                       <AccordionTrigger>Escolha um icone</AccordionTrigger>
                       <AccordionContent>
-                        <div className="grid grid-cols-8 gap-4">
+                        <div className="grid grid-cols-8 max-md:grid-cols-5 gap-4">
                           {Object.entries(ICONES_CATEGORIAS).map(
                             ([key, Icon]) => (
                               <div
                                 key={key}
-                                className="flex items-center bg-gray-300 rounded-full p-2 justify-center cursor-pointer"
+                                className="flex items-center bg-gray-300 rounded-full p-2 justify-center cursor-pointer max-md:w-10 max-md:h-10"
                                 onClick={() => field.onChange(key)}
                               >
                                 <Icon className="w-6 h-6 text-gray-500" />
@@ -192,7 +192,7 @@ const UpsertCategorieForm: React.FC<UpsertCategorieFormProps> = ({ onSuccess, ca
                     <AccordionItem value="item-1">
                       <AccordionTrigger>Escolha uma cor</AccordionTrigger>
                       <AccordionContent>
-                        <div className="grid grid-cols-8 gap-4">
+                        <div className="grid grid-cols-8 gap-4 max-md:grid-cols-5">
                           {colors.map((color) => (
                             <div
                               key={color}
