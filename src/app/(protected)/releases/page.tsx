@@ -22,12 +22,10 @@ import MobileTransactions from "./_components/mobile-transactions";
 import { parseISO, subDays, startOfDay, endOfDay } from "date-fns";
 
 
-type Props = {
-  params: Record<string, string>;
-  searchParams?: Record<string, string | string[]>;
-};
 
-const Releases = async ({ params, searchParams }:Props) => {
+
+const Releases = async (
+  searchParams?: Record<string, string | undefined>) => {
   const session = await auth.api.getSession({
         headers: await headers()
     })
