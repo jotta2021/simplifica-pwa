@@ -13,7 +13,7 @@ interface MobileTransactionsProps {
 }
 
 const MobileTransactions = ({ transactions }: MobileTransactionsProps) => {
- 
+  
   return (
     <div className="space-y-4">
       {transactions.map((transaction) => (
@@ -36,13 +36,13 @@ const MobileTransactions = ({ transactions }: MobileTransactionsProps) => {
                 : null}
             </Avatar>
             <div className="flex flex-col">
-              <span className="font-medium">{transaction.description}</span>
+              <span className="font-medium text-sm">{transaction.description}</span>
               <span className="text-sm text-gray-500">{formatDate(transaction.date)}</span>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <span
-              className={`font-medium ${
+              className={`font-medium text-sm ${
                 transaction.type === 'INCOME' ? 'text-green-500' : 'text-red-500'
               }`}
             >

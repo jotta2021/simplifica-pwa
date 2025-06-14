@@ -19,8 +19,8 @@ import { headers } from "next/headers";
 import ButtonAdd from "./_components/buttonAdd";
 import { redirect } from "next/navigation";
 import MobileTransactions from "./_components/mobile-transactions";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
-const Releases = async () => {
+import { parseISO, subDays, startOfDay, endOfDay } from "date-fns";
+const Releases = async ({searchParams}: {searchParams:{filter?:string}}) => {
     const session = await auth.api.getSession({
         headers: await headers()
     })
@@ -28,11 +28,52 @@ const Releases = async () => {
       redirect("/login");
     }
  
-    let filterDate;
+
+    const filter  = searchParams.filter || '7days'
+let dateFilter = {};
+const now  = new Date()
+
+if (filter === "now") {
+  dateFilter = {
+    date: {
+      gte: startOfDay(now),
+      lte: endOfDay(now),
+    },
+  };
+} else if (filter === "yesterday") {
+  const yesterday = subDays(now, 1);
+  dateFilter = {
+    date: {
+      gte: startOfDay(yesterday),
+      lte: endOfDay(yesterday),
+    },
+  };
+} else if (filter === "7days") {
+  dateFilter = {
+    date: {
+      gte: subDays(now, 7),
+    },
+  };
+} else if (filter === "30days") {
+  dateFilter = {
+    date: {
+      gte: subDays(now, 30),
+    },
+  };
+} else if (filter === "90days") {
+  dateFilter = {
+    date: {
+      gte: subDays(now, 90),
+    },
+  };
+}
+
+
 
     const transactions = await prisma.transactions.findMany({
         where: {
-            userId: session?.user.id
+            userId: session?.user.id,
+            ...dateFilter
         },
         include:{
             category: true
@@ -74,10 +115,10 @@ const Releases = async () => {
       </ContainerPageHeader>
       <ContentPage>
         <Card>
-          <CardHeader className="flex flex-row justify-between items-center max-md:flex-col max-md:items-start">
+          <CardHeader className="flex flex-row justify-between items-center ">
             <CardTitle>Histórico de transações</CardTitle>
          
-            <HeaderFilter />
+            <HeaderFilter  filter={filter} />
           </CardHeader>
           <CardContent className="space-y-2 max-md:px-1">
         
