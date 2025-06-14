@@ -18,11 +18,8 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import ButtonAdd from "./_components/buttonAdd";
 import { redirect } from "next/navigation";
-import { parseISO } from "date-fns";
-
-
-
-
+import MobileTransactions from "./_components/mobile-transactions";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 const Releases = async () => {
     const session = await auth.api.getSession({
         headers: await headers()
@@ -31,6 +28,7 @@ const Releases = async () => {
       redirect("/login");
     }
  
+    let filterDate;
 
     const transactions = await prisma.transactions.findMany({
         where: {
@@ -81,8 +79,15 @@ const Releases = async () => {
          
             <HeaderFilter />
           </CardHeader>
-          <CardContent className="space-y-2">
+          <CardContent className="space-y-2 max-md:px-1">
+        
+          {/* Renderização responsiva: DataTable em telas grandes, MobileTransactions em telas pequenas */}
+          <div className="hidden max-md:block">
+            <MobileTransactions transactions={formattedTransactions as any} />
+          </div>
+          <div className="max-md:hidden">
             <DataTable columns={columns} data={formattedTransactions as any} />
+          </div>
           </CardContent>
         </Card>
       </ContentPage>
