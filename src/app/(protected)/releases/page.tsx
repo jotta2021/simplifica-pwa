@@ -22,11 +22,11 @@ import MobileTransactions from "./_components/mobile-transactions";
 import { parseISO, subDays, startOfDay, endOfDay } from "date-fns";
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 type PageProps = {
-  params: {};  // se você não está usando params da rota dinâmica
+  params: Record<string, string>;
   searchParams?: Record<string, string | string[]>;
 };
 
-const Releases = async ({ searchParams }: PageProps) => {   
+const Releases = async ({ searchParams }: PageProps) => { 
   const session = await auth.api.getSession({
         headers: await headers()
     })
