@@ -1,0 +1,132 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String         @id @default(uuid())
+  email         String         @unique
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  categories    Category[]
+  transactions  Transactions[]
+  plans         Plans[]
+  name          String
+ emailVerified Boolean @default(false)
+
+  image         String?
+  sessions      Session[]
+  accounts      Account[]
+
+  @@map("user")
+}
+
+enum CategoryType {
+  INCOME
+  EXPENSE
+}
+
+model Category {
+  id           String         @id @default(uuid())
+  name         String
+  type         CategoryType
+  icon         String
+  color        String
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String
+  transactions Transactions[]
+}
+
+model Transactions {
+  id          String   @id @default(uuid())
+  amount      Float
+  description String
+  type        CategoryType
+  date        DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId  String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+}
+
+model Plans {
+  id                 String                @id @default(uuid())
+  title              String
+  description        String
+  target_value       Float
+  iniital_value      Float
+  createdAt          DateTime              @default(now())
+  updatedAt          DateTime              @updatedAt
+  user               User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId             String
+  plansContributions Plans_contributions[]
+}
+
+model Plans_contributions {
+  id        String   @id @default(uuid())
+  amount    Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  plan      Plans    @relation(fields: [planId], references: [id], onDelete: Cascade)
+  planId    String
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  expiresAt DateTime
+  token     String
+  createdAt DateTime
+  updatedAt DateTime
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id @default(uuid())
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime
+  updatedAt             DateTime
+
+  @@map("account")
+}
+
+model Verification {
+  id         String    @id @default(uuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime?
+  updatedAt  DateTime?
+
+  @@map("verification")
+}
