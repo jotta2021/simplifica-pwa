@@ -21,13 +21,12 @@ import { redirect } from "next/navigation";
 import MobileTransactions from "./_components/mobile-transactions";
 import { parseISO, subDays, startOfDay, endOfDay } from "date-fns";
 
-type PageProps = {
+type ReleasesPageProps = {
   params: Record<string, string>;
   searchParams?: Record<string, string | string[]>;
 };
 
-
-const Releases = async ({ params, searchParams }: PageProps) => {
+const Releases = async ({ params, searchParams }: ReleasesPageProps) => {
   const session = await auth.api.getSession({
         headers: await headers()
     })
