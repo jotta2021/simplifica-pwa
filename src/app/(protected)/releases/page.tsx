@@ -1,3 +1,7 @@
+import { redirect } from "next/navigation";
+import { headers } from "next/headers";
+import { prisma } from "../../../../lib/prisma";
+import { auth } from "@/lib/auth";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   ContainerPage,
@@ -9,24 +13,19 @@ import {
   ContentPage,
   BreadcrumbP,
 } from "@/components/ui/container-page";
-import React from "react";
 import HeaderFilter from "./_components/headerFilter";
 import { columns } from "./_components/columns";
 import { DataTable } from "./_components/releases-table";
-import { prisma } from "../../../../lib/prisma";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
 import ButtonAdd from "./_components/buttonAdd";
-import { redirect } from "next/navigation";
 import MobileTransactions from "./_components/mobile-transactions";
-import { parseISO, subDays, startOfDay, endOfDay } from "date-fns";
+import { subDays, startOfDay, endOfDay } from "date-fns";
 
-// 👇 Aqui o tipo igual ao exemplo do GitHub
-export type ReleasesPageProps = Promise<{ params: Record<string, string>; searchParams?: Record<string, string | string[]> }>;
+type ReleasesPageProps = {
+  params: Record<string, string>; // Caso futuramente precise
+  searchParams?: Record<string, string | string[]>;
+};
 
-export default async function Releases(props: { params: ReleasesPageProps; searchParams?: Record<string, string | string[]> }) {
-  const { params, searchParams } = await props;
-
+export default async function ReleasesPage({ params, searchParams }: ReleasesPageProps) {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -78,7 +77,7 @@ export default async function Releases(props: { params: ReleasesPageProps; searc
 
   const transactions = await prisma.transactions.findMany({
     where: {
-      userId: session?.user.id,
+      userId: session.user.id,
       ...dateFilter,
     },
     include: {
