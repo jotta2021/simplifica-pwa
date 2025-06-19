@@ -38,7 +38,7 @@ export default async function ReleasesPage(props:{
 
   const searchParams = await props.searchParams
  const rawFilter = searchParams?.filter;
-  const filter = Array.isArray(rawFilter) ? rawFilter[0] : rawFilter || "now";
+  const filter = Array.isArray(rawFilter) ? rawFilter[0] : rawFilter || "30days";
 
 
   
@@ -106,7 +106,7 @@ export default async function ReleasesPage(props:{
 
   return (
     <ContainerPage>
-      
+
       <ContainerPageHeader>
         <ContentHeader>
           <BreadcrumbP
