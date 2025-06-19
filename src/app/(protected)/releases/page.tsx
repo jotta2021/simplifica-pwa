@@ -20,8 +20,12 @@ import ButtonAdd from "./_components/buttonAdd";
 import MobileTransactions from "./_components/mobile-transactions";
 import { subDays, startOfDay, endOfDay } from "date-fns";
 
-
-export default async function ReleasesPage() {
+interface ReleasePageProps{
+  searchParams:{
+    filter:string
+  }
+}
+export default async function ReleasesPage({searchParams}:ReleasePageProps) {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -29,10 +33,11 @@ export default async function ReleasesPage() {
   if (!session?.user?.id) {
     redirect("/login");
   }
-/**
- *  const rawFilter = searchParams?.filter;
+ const rawFilter = searchParams?.filter;
   const filter = Array.isArray(rawFilter) ? rawFilter[0] : rawFilter || "now";
 
+
+  
   let dateFilter = {};
   const now = new Date();
 
@@ -70,13 +75,12 @@ export default async function ReleasesPage() {
       },
     };
   }
- */
  
 
   const transactions = await prisma.transactions.findMany({
     where: {
       userId: session.user.id,
-      //...dateFilter,
+     ...dateFilter,
     },
     include: {
       category: true,
