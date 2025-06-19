@@ -20,12 +20,14 @@ import ButtonAdd from "./_components/buttonAdd";
 import MobileTransactions from "./_components/mobile-transactions";
 import { subDays, startOfDay, endOfDay } from "date-fns";
 
-interface ReleasePageProps{
-  searchParams:{
-    filter:string
-  }
-}
-export default async function ReleasesPage({searchParams}:ReleasePageProps) {
+
+type SearchParams  = Promise<{[filter:string]:string | string[] | undefined}>
+
+
+
+export default async function ReleasesPage(props:{
+  searchParams: SearchParams
+}) {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -33,6 +35,8 @@ export default async function ReleasesPage({searchParams}:ReleasePageProps) {
   if (!session?.user?.id) {
     redirect("/login");
   }
+
+  const searchParams = await props.searchParams
  const rawFilter = searchParams?.filter;
   const filter = Array.isArray(rawFilter) ? rawFilter[0] : rawFilter || "now";
 
