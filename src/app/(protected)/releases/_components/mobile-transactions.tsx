@@ -16,7 +16,7 @@ const MobileTransactions = ({ transactions }: MobileTransactionsProps) => {
   
   return (
     <div className="space-y-4">
-      {transactions.map((transaction) => (
+      {transactions.length>0 ? transactions.map((transaction) => (
         <div
           key={transaction.id}
           className="flex items-center justify-between p-4 bg-white rounded-lg border"
@@ -51,7 +51,13 @@ const MobileTransactions = ({ transactions }: MobileTransactionsProps) => {
             <ButtonsActions release={transaction} />
           </div>
         </div>
-      ))}
+      ))    : 
+      <div className='flex items-center w-full justify-center'>
+
+        <span className='text-sm text-center'>Nenhuma transação encontrada</span>
+      </div>
+      
+      }
     </div>
   )
 }

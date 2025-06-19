@@ -106,6 +106,7 @@ export default async function ReleasesPage(props:{
 
   return (
     <ContainerPage>
+      
       <ContainerPageHeader>
         <ContentHeader>
           <BreadcrumbP
