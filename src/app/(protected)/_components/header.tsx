@@ -33,6 +33,7 @@ import { usePathname, redirect } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 // Menu items.
 const items = [
@@ -71,6 +72,18 @@ export  function Header() {
       },
     });
   }
+
+  function getUserInitials(name?: string) {
+    if (!name) return "";
+    // Remove leading/trailing spaces, split by spaces, take first two words
+    const words = name.trim().split(" ");
+    if (words.length === 1) {
+      // If only one word, return first two letters
+      return words[0].substring(0, 2).toUpperCase();
+    }
+    // Otherwise, take first letter of first two words
+    return (words[0][0] + words[1][0]).toUpperCase();
+  }
   return (
     <Sidebar className="bg-green-500" collapsible="offcanvas">
       <SidebarHeader className="bg-green-500">
@@ -103,7 +116,17 @@ export  function Header() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton>
-              <User2 /> {session?.data?.user?.name}
+              <Avatar className="w-8 h-8" >
+                {
+                  session.data?.user.image  ? 
+                   <AvatarImage src={session.data?.user.image}/> :
+                   <AvatarFallback className="text-black">
+                    {getUserInitials(session.data?.user?.name)}
+                   </AvatarFallback>
+                }
+              
+              </Avatar>
+               {session?.data?.user?.name}
               <ChevronUp className="ml-auto" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
