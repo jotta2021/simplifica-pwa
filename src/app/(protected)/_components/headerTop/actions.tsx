@@ -31,7 +31,7 @@ const session = authClient.useSession()
 const router = useRouter()
 //marca todas as notificacoes como lidas
 
-const readNotificationAction = useAction(markAllNotificationsRead);
+const readNotificationAction = useAction(markAllNotificationsRead as any);
 async function ReadyNotifications(){
     await readNotificationAction.execute({userId:session.data?.user.id  || ''})
     }
