@@ -23,6 +23,11 @@ plugins:[
         userId: user.id
       }
     })
+    const accounts = await prisma.accountWallet.findMany({
+      where:{
+        userId:user.id
+      }
+    })
     return {
       session: {
         ...session
@@ -34,7 +39,8 @@ plugins:[
         
       },
      
-      categories
+      categories,
+      accounts
     }
   })
 ]

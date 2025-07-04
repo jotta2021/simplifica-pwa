@@ -2,6 +2,7 @@ import type { Metadata ,Viewport} from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
+import ContextProvider from "@/contexts/context";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,7 +24,8 @@ export default function RootLayout({
   types: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR">
+    <ContextProvider>
+       <html lang="pt-BR" translate='no'>
       <title>Simplifica - Finanças Pessoais</title>
       <meta name="description" content="Simplifica é um sistema de finanças pessoais que permite você gerenciar suas finanças de forma simples e eficiente." />
       <link rel="icon" href="/icon.png" />
@@ -34,5 +36,7 @@ export default function RootLayout({
         <Toaster richColors theme='light' position='top-right' />
       </body>
     </html>
+    </ContextProvider>
+   
   );
 }

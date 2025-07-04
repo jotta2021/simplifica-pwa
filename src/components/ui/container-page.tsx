@@ -1,3 +1,5 @@
+'use client'
+import { useContext } from "react"
 import { Button } from "./button"
 import {
     Breadcrumb,
@@ -7,9 +9,13 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator,
   } from "@/components/ui/breadcrumb"
+import { contexts } from "@/contexts/context"
+import { Moon, Sun } from "lucide-react"
+import HeaderTop from "@/app/(protected)/_components/headerTop/headerTop"
 export const ContainerPage = ({children}:{children:React.ReactNode}) => {
     return (
-        <div className='p-4 px-6 w-full'>
+        <div className='p-4 px-6 w-full bg-gray-100 dark:bg-neutral-900 dark:text-white transition-colors duration-300'>
+           
             {children}
         </div>
     )
@@ -17,9 +23,14 @@ export const ContainerPage = ({children}:{children:React.ReactNode}) => {
 
 
 export const ContainerPageHeader = ({children}:{children:React.ReactNode}) => {
+  
     return (
-        <div className='w-full flex items-center justify-between max-md:flex-col max-md:items-start'>
+        <div className="flex justify-between w-full">
+               <div className='w-full flex items-center justify-between max-md:flex-col max-md:items-start'>
             {children}
+          
+        </div>
+    
         </div>
     )
 }
@@ -51,13 +62,13 @@ export const BreadcrumbP = ({ items }: { items: { label: string; href?: string; 
 }
 export const TitlePage = ({title}:{title:string}) => {
     return (
-        <h1 className='text-2xl font-bold text-gray-700'>{title}</h1>
+        <h1 className='text-2xl font-bold text-gray-700 dark:text-white'>{title}</h1>
     )
 }
 
 export const DescriptionPage = ({description}:{description:string}) => {
     return (
-        <p className='text-sm text-gray-500'>{description}</p>
+        <p className='text-sm text-gray-500 dark:text-white'>{description}</p>
     )
 }
 
@@ -77,7 +88,7 @@ export const ButtonPage = ({children,onClick}:{children:React.ReactNode,onClick:
 
 export const ContentPage = ({children}:{children:React.ReactNode}) => {
     return (
-        <div className='w-full flex flex-col gap-2 my-4'>
+        <div className='w-full min-h-[calc(100vh-120px)] flex flex-col gap-2 my-4 bg-gray-100 dark:bg-neutral-900 dark:text-white transition-colors duration-300'>
             {children}
         </div>
     )

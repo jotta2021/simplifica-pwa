@@ -21,6 +21,7 @@ if(!session?.user.id){
         error: 'Unauthorized'
     }
 }   
+
 const defaultCategories = [
     // Income categories
     {
@@ -71,14 +72,14 @@ const defaultCategories = [
       name: "Lazer",
       type: CategoryType.EXPENSE,
       icon: "lazer",
-      color: "#fee2e2",
+      color: "#FF69B4",
       userId: session?.user.id
     },
     {
       name: "Saúde",
       type: CategoryType.EXPENSE,
       icon: "lista",
-      color: "#6ECEDA",
+      color: "#00B8D9",
       userId: session?.user.id
     }
    ]

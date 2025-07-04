@@ -6,8 +6,11 @@ import {
   Home,
   Inbox,
   LogOut,
+  Moon,
+  Sun,
   Tag,
   User2,
+  Wallet,
 } from "lucide-react";
 import {
   Sidebar,
@@ -34,6 +37,9 @@ import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Switch } from "@/components/ui/switch";
+import { useContext, useEffect } from "react";
+import { contexts } from "@/contexts/context";
 
 // Menu items.
 const items = [
@@ -57,51 +63,49 @@ const items = [
     url: "/planing",
     icon: Calendar,
   },
+  {
+    title: "Contas/Cartões",
+    url: "/accounts",
+    icon: Wallet,
+  },
 ];
 
 export  function Header() {
   const session =  authClient.useSession();
   const pathname = usePathname();
-  async function Logout() {
-    await authClient.signOut({
-      fetchOptions: {
-        onSuccess: () => {
-          toast.success("Deslogado com sucesso")
-          redirect("/login");
-        },
-      },
-    });
-  }
+  const {darkMode,setDarkMode} = useContext(contexts)
 
-  function getUserInitials(name?: string) {
-    if (!name) return "";
-    // Remove leading/trailing spaces, split by spaces, take first two words
-    const words = name.trim().split(" ");
-    if (words.length === 1) {
-      // If only one word, return first two letters
-      return words[0].substring(0, 2).toUpperCase();
+  useEffect(() => {
+    if(typeof document!=='undefined'){
+        if (darkMode) {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
     }
-    // Otherwise, take first letter of first two words
-    return (words[0][0] + words[1][0]).toUpperCase();
-  }
+    }
+    
+  }, [darkMode]);
+
   return (
-    <Sidebar className="bg-green-500" collapsible="offcanvas">
-      <SidebarHeader className="bg-green-500">
+    <Sidebar collapsible='icon'>
+      <SidebarHeader  >
         <div className="flex items-center gap-2">
           <Image src={"/icons/icon.png"} alt="logo" width={40} height={40} />
-          <span className={`text-xl font-bold text-white `}>Simplifica</span>
+          <span className={`text-xl font-bold  `}>Simplifica</span>
         </div>
       </SidebarHeader>
       <SidebarSeparator />
-      <SidebarContent className="bg-green-500">
+      <SidebarContent  >
         <SidebarGroup>
-          <SidebarGroupLabel className="text-white">Menu</SidebarGroupLabel>
+          <SidebarGroupLabel >Menu</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
-                <SidebarMenuItem key={item.title} className="text-white">
-                  <SidebarMenuButton asChild isActive={pathname === item.url}>
-                    <a href={item.url}>
+                <SidebarMenuItem key={item.title} >
+                  <SidebarMenuButton asChild isActive={pathname === item.url} >
+                    <a href={item.url} >
                       <item.icon />
                       <span>{item.title}</span>
                     </a>
@@ -112,36 +116,25 @@ export  function Header() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="bg-green-500 text-white">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <SidebarMenuButton>
-              <Avatar className="w-8 h-8" >
-                {
-                  session.data?.user.image  ? 
-                   <AvatarImage src={session.data?.user.image}/> :
-                   <AvatarFallback className="text-black">
-                    {getUserInitials(session.data?.user?.name)}
-                   </AvatarFallback>
-                }
-              
-              </Avatar>
-               {session?.data?.user?.name}
-              <ChevronUp className="ml-auto" />
-            </SidebarMenuButton>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            side="top"
-            className="w-[--radix-popper-anchor-width]"
-          >
-            <DropdownMenuItem asChild>
-              <Button variant={"ghost"} className="w-full" onClick={Logout}>
-                <LogOut />
-                Sair
-              </Button>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+      <SidebarFooter >
+<div className="flex items-center justify-between text-sm dark:text-white dark:bg-neutral-700 px-3 bg-slate-200 p-2 rounded-md">
+  <div className="flex items-center gap-2 ">
+    {
+      darkMode ?
+    <Moon/> :  <Sun/>
+    }
+    
+  <span>Dark mode</span>
+  </div>
+ 
+  <Switch className="data-[state=checked]:bg-green-500 data-[state=unchecked]:bg-gray-400"
+  checked={darkMode}
+  onCheckedChange={setDarkMode}
+  />
+</div>
+
+
+     
       </SidebarFooter>
     </Sidebar>
   );

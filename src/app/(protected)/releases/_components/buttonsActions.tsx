@@ -18,6 +18,7 @@ import {
 import { useAction } from 'next-safe-action/hooks';
 import deleteReleaseActions from '@/actions/upsertReleasesActions/deleteReleaseActions';
 import { toast } from 'sonner';
+import UpsertTransferForm from '../../_components/upsert-transfer-form';
 // import { Container } from './styles';
 interface ButtonsActionsProps {
     release: Transaction
@@ -46,7 +47,24 @@ const ButtonsActions: React.FC<ButtonsActionsProps> = ({release}) => {
       </Button>
     </DialogTrigger>
     <DialogContent className='max-md:w-[90%]'>
-        <UpsertReleaseForm type={release.type === "INCOME" ? "INCOME" : "EXPENSE"} onSuccess={() =>setOpenDialog(false) }  release={release}/>
+      {
+        release.type ==='EXPENSE' || release.type ==='INCOME'  ?
+         <UpsertReleaseForm type={release.type === "INCOME" ? "INCOME" : "EXPENSE"} onSuccess={() =>setOpenDialog(false) }     release={{
+          ...release,
+          toAccountWalletId: release.toAccountWalletId ?? undefined,
+        }}/>
+     :
+
+     <UpsertTransferForm
+       onSuccess={() => setOpenDialog(false)}
+       release={{
+         ...release,
+         toAccountWalletId: release.toAccountWalletId ?? undefined,
+       }}
+     />
+     
+        }
+       
     </DialogContent>
   </Dialog>
   

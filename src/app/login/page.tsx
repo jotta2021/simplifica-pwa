@@ -16,10 +16,11 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Check, Loader2 } from "lucide-react";
+import { Check, Loader2, Eye, EyeOff } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import React from "react";
 
 
 const formSchema = z.object({
@@ -40,6 +41,8 @@ export default function Login() {
       password: "",
     },
   });
+
+  const [showPassword, setShowPassword] = React.useState(false);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const {email,password} = values
@@ -112,9 +115,22 @@ export default function Login() {
                 <FormItem>
                   <FormLabel>Senha</FormLabel>
                   <FormControl>
-                    <Input placeholder="Informe sua senha" {...field} />
+                    <div className="relative">
+                      <Input
+                        placeholder="Informe sua senha"
+                        type={showPassword ? "text" : "password"}
+                        {...field}
+                      />
+                      <button
+                        type="button"
+                        className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700"
+                        tabIndex={-1}
+                        onClick={() => setShowPassword((v) => !v)}
+                      >
+                        {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                      </button>
+                    </div>
                   </FormControl>
-
                   <FormMessage />
                 </FormItem>
               )}

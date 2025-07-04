@@ -9,9 +9,11 @@ export const formSchema = z.object({
       message: "Valor é obrigatório",
     }),
     date: z.date(),
-    category: z.string().min(1, {
-      message: "Categoria é obrigatória",
+    category: z.string().optional(),
+    type: z.enum(["INCOME", "EXPENSE" , "TRANSFER"]),
+    accountWalletId: z.string().min(1, {
+      message: "Conta é obrigatória",
     }),
-    type: z.enum(["INCOME", "EXPENSE"]),
+    toAccountWalletId: z.string().optional()
   });
   

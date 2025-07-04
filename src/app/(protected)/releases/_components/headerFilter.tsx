@@ -21,8 +21,9 @@ const handleChange = (value:string)=> {
   router.replace(`?${params.toString()}`)
 }
   return (
-    <div className="flex justify-end items-end">
-      <ToggleGroup type="single" value={filter}  onValueChange={handleChange} className="max-md:hidden">
+    <div className="flex   gap-4 items-center">
+    
+      <ToggleGroup type="single" value={filter}  onValueChange={handleChange} className="max-md:hidden w-full">
         <ToggleGroupItem value="now">Hoje</ToggleGroupItem>
         <ToggleGroupItem value="yesterday">Ontem</ToggleGroupItem>
         <ToggleGroupItem value="7days">7 dias</ToggleGroupItem>

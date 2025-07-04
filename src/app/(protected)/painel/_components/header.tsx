@@ -47,7 +47,7 @@ export async function     Header() {
  }
 
   return (
-    <Sidebar>
+    <Sidebar  collapsible='icon'  >
         <SidebarHeader>
             <div className="flex items-center gap-2">
                 <Image src={"/icons/icon.png"} alt="logo" width={40} height={40} />

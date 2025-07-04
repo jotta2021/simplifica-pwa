@@ -27,6 +27,7 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import { useEffect, useState } from "react";
+import { AccountWallet } from "@/app/@types/accountWallet";
 
 const formSchema = z.object({
   id: z.string().optional(),
@@ -40,21 +41,31 @@ const formSchema = z.object({
   category: z.string().min(1, {
     message: "Categoria é obrigatória",
   }),
-  type: z.enum(["INCOME", "EXPENSE"]),
+  type: z.enum(["INCOME", "EXPENSE", "TRANSFER"]),
+  accountWalletId: z.string().min(1, {
+    message: "Conta é obrigatória",
+  }),
+  toAccountWalletId: z.string().optional()
 });
 
 interface UpsertReleaseFormProps {
-  type?: "INCOME" | "EXPENSE";
+  type?: "INCOME" | "EXPENSE" | "TRANSFER" ;
   onSuccess: () => void;
   release?: z.infer<typeof formSchema>
 }
 
 const UpsertReleaseForm = ({  type, onSuccess, release }: UpsertReleaseFormProps) => {
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<Category[] | null>([]);
+  const [accounts,setAccounts] = useState<AccountWallet[]>([])
 
   useEffect(() => {
     const fetchCategories = async () => {
       const session = await authClient.getSession();
+      //armazena as conts bancks
+      const listAccounts = session?.data?.accounts || []
+    setAccounts(listAccounts)
+
+
       const listCategories = session?.data?.categories || []
       if(type === "INCOME"){
         const incomeCategories = listCategories.filter((category: Category) => category.type === "INCOME")
@@ -64,11 +75,13 @@ const UpsertReleaseForm = ({  type, onSuccess, release }: UpsertReleaseFormProps
         setCategories(expenseCategories)
       }
     };
+
+
     
     fetchCategories();
   }, []);
 
-  console.log(release)
+  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -78,6 +91,8 @@ const UpsertReleaseForm = ({  type, onSuccess, release }: UpsertReleaseFormProps
       date: release?.date || new Date(),
       category: release?.category || "",
       type: release?.type || type || "EXPENSE",
+      accountWalletId: release?.accountWalletId || '',
+      toAccountWalletId: release?.toAccountWalletId || ''
     },
   });
 
@@ -131,7 +146,9 @@ const UpsertReleaseForm = ({  type, onSuccess, release }: UpsertReleaseFormProps
                 </FormItem>
               )}
             />
-               <FormField
+
+            <div className="flex gap-4 w-full  max-md:flex-col">
+            <FormField
               control={form.control}
               name="amount"
               render={({ field }) => (
@@ -156,6 +173,36 @@ const UpsertReleaseForm = ({  type, onSuccess, release }: UpsertReleaseFormProps
                 </FormItem>
               )}
             />
+             <FormField
+              control={form.control}
+              name="accountWalletId"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel>Conta</FormLabel>
+                  <FormControl>
+                <Select onValueChange={field.onChange} defaultValue={field.value} disabled={release ? true :false}>
+                    <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Selecione uma conta" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {accounts && accounts.length > 0 ? accounts.map((account) => (
+                                <SelectItem key={account.id} value={account.id}>
+                                    {account.name}
+                                </SelectItem>
+                            )) : (
+                                <SelectItem value="Nenhuma conta encontrada" disabled>
+                                    Nenhuma conta encontrada
+                                </SelectItem>
+                            )}
+                        </SelectContent>
+                </Select>
+                    </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            </div>
+           
             <div className="flex gap-4 w-full  max-md:flex-col">
                   <FormField
               control={form.control}
@@ -186,7 +233,7 @@ const UpsertReleaseForm = ({  type, onSuccess, release }: UpsertReleaseFormProps
                         <SelectValue placeholder="Selecione uma categoria" />
                         </SelectTrigger>
                         <SelectContent>
-                            {categories.length > 0 ? categories.map((category) => (
+                            {categories && categories.length > 0 ? categories.map((category) => (
                                 <SelectItem key={category.id} value={category.id}>
                                     {category.name}
                                 </SelectItem>

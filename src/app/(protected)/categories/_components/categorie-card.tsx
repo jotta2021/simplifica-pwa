@@ -18,11 +18,11 @@ const CategoryCard = ({ category }: CategoryCardProps) => {
   return (
     <div
       key={category.id}
-      className="flex flex-row gap-2 items-center border-b pb-2 justify-between"
+      className=" p-2 rounded-md flex flex-row gap-2 items-center border-b pb-2 justify-between border-gray-200 dark:border-gray-700 bg-white dark:bg-neutral-900"
     >
       <div className="flex flex-row gap-2 items-center">
         <Avatar
-          className="bg-gray-300 w-10 h-10 items-center justify-center"
+          className="bg-gray-300 dark:bg-neutral-700 w-10 h-10 items-center justify-center"
           style={{ backgroundColor: category.color }}
         >
           {ICONES_CATEGORIAS[category.icon as keyof typeof ICONES_CATEGORIAS]
@@ -34,15 +34,15 @@ const CategoryCard = ({ category }: CategoryCardProps) => {
               )
             : null}
         </Avatar>
-        <h1 className="font-medium text-gray-700 text-sm">{category.name}</h1>
+        <h1 className="font-medium text-gray-700 dark:text-white text-sm">{category.name}</h1>
       </div>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button className="bg-blue-400 text-white hover:bg-blue-500">
+          <Button className="bg-blue-400 text-white hover:bg-blue-500 dark:bg-blue-600 dark:hover:bg-blue-700 dark:text-white">
             Editar
           </Button>
         </DialogTrigger>
-        <DialogContent className="max-h-[90vh] overflow-y-auto max-md:w-[90%]">
+        <DialogContent className="max-h-[90vh] overflow-y-auto max-md:w-[90%] dark:bg-neutral-900 dark:text-white">
           <UpsertCategorieForm category={category} onSuccess={() => {
             setOpen(false);
           }} />

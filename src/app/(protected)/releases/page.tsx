@@ -88,6 +88,8 @@ export default async function ReleasesPage(props:{
     },
     include: {
       category: true,
+      accountWallet:true,
+      toAccountWallet:true
     },
     orderBy: {
       date: "desc",
@@ -96,12 +98,14 @@ export default async function ReleasesPage(props:{
 
   const formattedTransactions = transactions.map((transaction) => ({
     ...transaction,
-    category: transaction.category.id,
-    categoryDetails: {
-      name: transaction.category.name,
-      icon: transaction.category.icon,
-      color: transaction.category.color,
-    },
+    ...(transaction.category && {
+      category: transaction.category.id,
+      categoryDetails: {
+        name: transaction.category.name,
+        icon: transaction.category.icon,
+        color: transaction.category.color,
+      },
+    }),
   }));
 
   return (

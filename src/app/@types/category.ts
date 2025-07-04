@@ -5,4 +5,5 @@
         icon:string,
         type:string,
         value?:number
+        amountLimit?:number
     }

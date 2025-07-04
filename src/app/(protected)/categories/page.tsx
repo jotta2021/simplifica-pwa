@@ -61,8 +61,8 @@ const Categories = async () => {
       <ContentPage>
         <Tabs defaultValue="income" className="w-full">
           <TabsList className="w-full bg-transparent grid grid-cols-2">
-            <TabsTrigger value="income" className="data-[state=active]:border-b-2  data-[state=active]:shadow-none data-[state=active]:border-b-green-500 bg-transparent " >Receitas</TabsTrigger>
-            <TabsTrigger value="expense" className="data-[state=active]:border-b-2  data-[state=active]:shadow-none data-[state=active]:border-b-green-500 bg-transparent ">Despesas</TabsTrigger>
+            <TabsTrigger value="income" className="data-[state=active]:border-b-2  data-[state=active]:shadow-none data-[state=active]:border-b-green-500 bg-transparent dark:bg-neutral-900 " >Receitas</TabsTrigger>
+            <TabsTrigger value="expense" className="data-[state=active]:border-b-2  data-[state=active]:shadow-none data-[state=active]:border-b-green-500 bg-transparent dark:bg-neutral-900 ">Despesas</TabsTrigger>
           </TabsList>
           <TabsContent value="income">
             <div className="space-y-2">

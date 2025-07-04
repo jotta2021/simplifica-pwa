@@ -21,24 +21,24 @@ const CardeResumes = ({
   const variation = lastMonth ? ((nowMonth - lastMonth) / lastMonth) * 100 : 0;
 
   const isPositive = variation > 0 ? true : false;
-  const colorVariation = isPositive ? "#22c55e" : "#ef4444";
+ 
 
   return (
-    <Card className="bg-gradient-to-br from-white to-gray-50 border-none shadow-md hover:shadow-lg transition-shadow duration-200">
-      <CardContent className="p-0">
+    <Card className=" light:shadow-md hover:shadow-lg transition-shadow  dark:bg-neutral-800 dark:text-white duration-200">
+      <CardContent className="p-0  dark:bg-neutral-800 dark:text-white rounded-md">
         <div className="flex flex-row items-center gap-4 px-6 py-5">
           <div className="flex flex-col flex-1">
-            <span className="text-gray-600 text-xs font-medium tracking-wide mb-1">
+            <span className="text-gray-600 dark:text-white  text-xs font-medium tracking-wide mb-1">
               {title}
               {subtitle && (
-                <span className="ml-1 text-gray-400 font-normal">
+                <span className="ml-1 text-gray-400 dark:text-white font-normal">
                   no mês atual
                 </span>
               )}
             </span>
             <span
-              className="text-3xl font-extrabold tracking-tight"
-              style={{ color }}
+              className="text-3xl font-extrabold tracking-tight text-gray-800 dark:text-white"
+              
             >
               R${" "}
               {nowMonth.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}

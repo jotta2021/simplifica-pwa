@@ -17,9 +17,12 @@ import {
 } from "@/components/ui/form";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
+import { Loader2, Eye, EyeOff } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { createCategoriesDefaultAction } from "@/actions/upsertCategorieActions/createCategoriesDefault";
+import React from "react";
+import { upsertAccountWalletAction } from "@/actions/upsertAccountWalletActions";
+import { redirect } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Nome é obrigatório" }),
@@ -41,9 +44,17 @@ export default function Register() {
     },
   });
 
+  const [showPassword, setShowPassword] = React.useState(false);
 
   //durante o cadastro serao criada as categorias padroes
 const createCategoriesDefault = useAction(createCategoriesDefaultAction)
+
+
+//funcao pra criar uma conta padrão
+const createAccountDefault = useAction(upsertAccountWalletAction)
+
+
+  
 
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -59,8 +70,11 @@ const createCategoriesDefault = useAction(createCategoriesDefaultAction)
       {
         onSuccess: async() => {
          await createCategoriesDefault.execute()
+         await createAccountDefault.execute({name:"Conta inicial", image: '/banks/wallet.png'})
           toast.success("Cadastro realizado com sucesso");
           form.reset();
+          redirect('/login')
+          
         },
         onError: (error: unknown) => {
           const err = (error as { error?: { message?: string } }).error;
@@ -140,9 +154,22 @@ const createCategoriesDefault = useAction(createCategoriesDefaultAction)
                 <FormItem>
                   <FormLabel>Senha</FormLabel>
                   <FormControl>
-                    <Input placeholder="Informe sua senha" {...field} />
+                    <div className="relative">
+                      <Input
+                        placeholder="Informe sua senha"
+                        type={showPassword ? "text" : "password"}
+                        {...field}
+                      />
+                      <button
+                        type="button"
+                        className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700"
+                        tabIndex={-1}
+                        onClick={() => setShowPassword((v) => !v)}
+                      >
+                        {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                      </button>
+                    </div>
                   </FormControl>
-
                   <FormMessage />
                 </FormItem>
               )}
