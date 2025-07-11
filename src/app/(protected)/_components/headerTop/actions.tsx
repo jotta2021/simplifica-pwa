@@ -7,7 +7,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { contexts } from "@/contexts/context";
-import { Bell, ChevronUp, LogOut, Moon,  Sun } from "lucide-react";
+import { Bell, ChevronUp, LogOut, Moon,  Sun, User } from "lucide-react";
 import { useContext } from "react";
 import { Badge } from "@/components/ui/badge";
 import { useAction } from "next-safe-action/hooks";
@@ -77,7 +77,7 @@ async function ReadyNotifications(){
          </button>
  
          <Popover>
-           <PopoverTrigger>
+           <PopoverTrigger className="mt-2">
              <button className="relative" >
                <Bell size={24}  />
                {
@@ -116,6 +116,12 @@ async function ReadyNotifications(){
             side="top"
             className="w-[--radix-popper-anchor-width]"
           >
+            <DropdownMenuItem asChild>
+              <Button variant={"ghost"} className="w-full" onClick={() => router.push("/profile")}>
+                <User />
+                Meu Perfil
+              </Button>
+            </DropdownMenuItem>
             <DropdownMenuItem asChild>
               <Button variant={"ghost"} className="w-full" onClick={Logout}>
                 <LogOut />

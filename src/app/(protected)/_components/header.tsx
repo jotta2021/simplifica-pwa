@@ -11,6 +11,7 @@ import {
   Tag,
   User2,
   Wallet,
+  User,
 } from "lucide-react";
 import {
   Sidebar,
@@ -67,6 +68,11 @@ const items = [
     title: "Contas/Cartões",
     url: "/accounts",
     icon: Wallet,
+  },
+  {
+    title: "Meu Perfil",
+    url: "/profile",
+    icon: User,
   },
 ];
 
