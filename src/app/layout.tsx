@@ -32,6 +32,24 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+<script>
+  (function(d,t) {
+    var BASE_URL="https://chatwoot-chatwoot.xk0rrp.easypanel.host";
+    var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src=BASE_URL+"/packs/js/sdk.js";
+    g.defer = true;
+    g.async = true;
+    s.parentNode.insertBefore(g,s);
+    g.onload=function(){
+      window.chatwootSDK.run({
+        websiteToken: '8ZwprhTCJSCtgWKSUFrduUFx',
+        baseUrl: BASE_URL
+      })
+    }
+  })(document,"script");
+</script>
+
+        
         {children}
         <Toaster richColors theme='light' position='top-right' />
       </body>
