@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import ContextProvider from "@/contexts/context";
-
+import Script from "next/script"
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -32,23 +32,17 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-<script>
-  (function(d,t) {
-    var BASE_URL="https://chatwoot-chatwoot.xk0rrp.easypanel.host";
-    var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-    g.src=BASE_URL+"/packs/js/sdk.js";
-    g.defer = true;
-    g.async = true;
-    s.parentNode.insertBefore(g,s);
-    g.onload=function(){
-      window.chatwootSDK.run({
-        websiteToken: '8ZwprhTCJSCtgWKSUFrduUFx',
-        baseUrl: BASE_URL
-      })
-    }
-  })(document,"script");
-</script>
-
+   <Script
+            src="https://chatwoot-chatwoot.xk0rrp.easypanel.host/packs/js/sdk.js"
+            strategy="lazyOnload"
+            onLoad={() => {
+              // @ts-ignore
+              window.chatwootSDK.run({
+                websiteToken: "8ZwprhTCJSCtgWKSUFrduUFx",
+                baseUrl: "https://chatwoot-chatwoot.xk0rrp.easypanel.host",
+              })
+            }}
+          />
         
         {children}
         <Toaster richColors theme='light' position='top-right' />
