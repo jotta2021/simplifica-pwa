@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import ContextProvider from "@/contexts/context";
-import Script from "next/script"
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -32,17 +32,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-   <Script
-            src="https://chatwoot-chatwoot.xk0rrp.easypanel.host/packs/js/sdk.js"
-            strategy="lazyOnload"
-            onLoad={() => {
-              // @ts-ignore
-              window.chatwootSDK.run({
-                websiteToken: "8ZwprhTCJSCtgWKSUFrduUFx",
-                baseUrl: "https://chatwoot-chatwoot.xk0rrp.easypanel.host",
-              })
-            }}
-          />
+  
         
         {children}
         <Toaster richColors theme='light' position='top-right' />
