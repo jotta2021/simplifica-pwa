@@ -41,7 +41,7 @@ async function ReadyNotifications(){
         fetchOptions: {
           onSuccess: () => {
             toast.success("Deslogado com sucesso")
-            redirect("/login");
+            redirect("/");
           },
         },
       });
