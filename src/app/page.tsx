@@ -27,6 +27,7 @@ import {
   Mail,
   Clock
 } from 'lucide-react';
+import Image from 'next/image';
 
 const LandingPage: React.FC = () => {
   const scrollToSection = (sectionId: string) => {
@@ -45,9 +46,7 @@ const LandingPage: React.FC = () => {
       <header className="border-b bg-white/80 backdrop-blur-sm dark:bg-slate-900/80 sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center">
-              <Wallet className="w-5 h-5 text-white" />
-            </div>
+          <Image src={"/icon.png"} alt="logo" width={30} height={30} />
             <span className="text-xl font-bold text-slate-900 dark:text-white">Simplifica</span>
           </div>
           <div className="hidden md:flex items-center space-x-6">
@@ -84,54 +83,83 @@ const LandingPage: React.FC = () => {
       </header>
 
       {/* Hero Section */}
-      <section className="container mx-auto px-4 py-20 text-center">
-        <div className="max-w-4xl mx-auto">
-          <Badge variant="secondary" className="mb-6 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
-            <Zap className="w-4 h-4 mr-2" />
-            Assistente Financeiro Inteligente
-          </Badge>
-          
-          <h1 className="text-5xl md:text-6xl font-bold text-slate-900 dark:text-white mb-6">
-            Simplifique suas
-            <span className="text-green-500"> finanças</span>
-            <br />
-            com IA
-          </h1>
-          
-          <p className="text-xl text-slate-600 dark:text-slate-300 mb-8 max-w-2xl mx-auto">
-            Organize suas finanças de forma inteligente. Cadastre despesas e receitas pelo WhatsApp, 
-            visualize relatórios detalhados e tome controle total do seu dinheiro.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-            <Link href="/register">
-              <Button size="lg" className="bg-green-500 hover:bg-green-600 text-white">
-                <MessageCircle className="w-5 h-5 mr-2" />
-                Conectar WhatsApp
-              </Button>
-            </Link>
-            <Button 
-              variant="outline" 
-              size="lg"
-              onClick={() => scrollToSection('features')}
-            >
-              <PlayCircle className="w-5 h-5 mr-2" />
-              Ver Demo
-            </Button>
-          </div>
-          
-          <div className="flex items-center justify-center space-x-8 text-sm text-slate-500 dark:text-slate-400">
-            <div className="flex items-center">
-              <CheckCircle className="w-4 h-4 mr-2 text-green-500" />
-              Gratuito para sempre
+      <section className="container mx-auto px-4 py-20">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left Side - Text Content */}
+            <div className="text-center lg:text-left">
+              <Badge variant="secondary" className="mb-6 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                <Zap className="w-4 h-4 mr-2" />
+                Assistente Financeiro Inteligente
+              </Badge>
+              
+              <h1 className="text-5xl md:text-6xl font-bold text-slate-900 dark:text-white mb-6">
+                Simplifique suas
+                <span className="text-green-500"> finanças</span>
+                <br />
+                com IA
+              </h1>
+              
+              <p className="text-xl text-slate-600 dark:text-slate-300 mb-8">
+                Organize suas finanças de forma inteligente. Cadastre despesas e receitas pelo WhatsApp, 
+                visualize relatórios detalhados e tome controle total do seu dinheiro.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-12">
+                <Link href="/register">
+                  <Button size="lg" className="bg-green-500 hover:bg-green-600 text-white">
+                    <MessageCircle className="w-5 h-5 mr-2" />
+                    Conectar WhatsApp
+                  </Button>
+                </Link>
+                <Button 
+                  variant="outline" 
+                  size="lg"
+                  onClick={() => scrollToSection('features')}
+                >
+                  <PlayCircle className="w-5 h-5 mr-2" />
+                  Ver Demo
+                </Button>
+              </div>
+              
+              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start space-y-4 sm:space-y-0 sm:space-x-8 text-sm text-slate-500 dark:text-slate-400">
+                <div className="flex items-center">
+                  <CheckCircle className="w-4 h-4 mr-2 text-green-500" />
+                  Gratuito para sempre
+                </div>
+                <div className="flex items-center">
+                  <Shield className="w-4 h-4 mr-2 text-green-500" />
+                  Dados seguros
+                </div>
+                <div className="flex items-center">
+                  <Smartphone className="w-4 h-4 mr-2 text-green-500" />
+                  Multiplataforma
+                </div>
+              </div>
             </div>
-            <div className="flex items-center">
-              <Shield className="w-4 h-4 mr-2 text-green-500" />
-              Dados seguros
-            </div>
-            <div className="flex items-center">
-              <Smartphone className="w-4 h-4 mr-2 text-green-500" />
-              Multiplataforma
+
+            {/* Right Side - Screenshots */}
+            <div className="relative">
+              {/* Desktop Screenshot */}
+              <div className="relative mb-8">
+                <div className="absolute -top-2 -left-2 -right-2 -bottom-2 bg-gradient-to-r from-green-400 to-emerald-500 rounded-3xl blur-xl opacity-20"></div>
+                <div className="relative bg-white dark:bg-slate-800 rounded-2xl shadow-2xl p-4">
+                  <div className="flex items-center space-x-2 mb-4">
+                    <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                    <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                    <div className="flex-1"></div>
+                    <div className="text-xs text-slate-500 dark:text-slate-400">Simplifica Dashboard</div>
+                  </div>
+                  <img 
+                    src="/print-pc.png" 
+                    alt="Dashboard do Simplifica no Desktop" 
+                    className="w-full h-auto rounded-lg shadow-lg"
+                  />
+                </div>
+              </div>
+
+            
             </div>
           </div>
         </div>
@@ -428,6 +456,8 @@ const LandingPage: React.FC = () => {
           </div>
         </div>
       </section>
+
+
 
       {/* Pricing Section */}
       <section id="pricing" className="py-20 bg-white dark:bg-slate-900">
