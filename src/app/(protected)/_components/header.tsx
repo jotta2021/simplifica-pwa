@@ -103,7 +103,7 @@ export  function Header() {
 
   const handleSimplificaBotClick = () => {
     const message = encodeURIComponent("Olá! Gostaria de saber mais sobre o SimplificaBot. Como posso começar?");
-    const whatsappUrl = `https://wa.me/5582996735293?text=${message}`;
+    const whatsappUrl = `https://wa.me/558296646113?text=${message}`;
     window.open(whatsappUrl, '_blank');
   };
 
