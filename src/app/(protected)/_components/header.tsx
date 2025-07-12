@@ -98,8 +98,9 @@ export  function Header() {
     <Sidebar collapsible='icon'>
       <SidebarHeader  >
         <div className="flex items-center gap-2">
-          <Image src={"/icons/icon.png"} alt="logo" width={40} height={40} />
-          <span className={`text-xl font-bold  `}>Simplifica</span>
+            <Image src={"/icon.png"} alt="logo" width={40} height={40} />
+            <p className="text-xl font-bold">Simplifica</p>
+         
         </div>
       </SidebarHeader>
       <SidebarSeparator />

@@ -11,7 +11,7 @@ interface AccountWalletsSectionProps {
 
 const AccountWalletsSection: React.FC<AccountWalletsSectionProps> = ({ accounts }) => {
   return (
-    <Card className="shadow-md bg-gradient-to-br  dark:bg-neutral-900 dark:text-white transition-colors duration-300 ">
+    <Card className="shadow-md bg-gradient-to-br bg-white dark:bg-neutral-900 dark:text-white transition-colors duration-300 ">
     <CardHeader className="pb-2 flex flex-row items-center justify-between">
       <CardTitle className="text-gray-700 dark:text-white text-lg font-semibold ">Minhas Contas</CardTitle>
       <a href="/accounts">

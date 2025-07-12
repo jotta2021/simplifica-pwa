@@ -1,10 +1,9 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input"
+import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import Link from "next/link";
-
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,14 +15,17 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Check, Loader2, Eye, EyeOff, Mail, Lock } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { Loader2, Eye, EyeOff, Mail, Lock, User, Check } from "lucide-react";
+import { useAction } from "next-safe-action/hooks";
+import { createCategoriesDefaultAction } from "@/actions/upsertCategorieActions/createCategoriesDefault";
 import React from "react";
-
+import { upsertAccountWalletAction } from "@/actions/upsertAccountWalletActions";
+import { redirect } from "next/navigation";
 
 const formSchema = z.object({
+  name: z.string().min(1, { message: "Nome é obrigatório" }),
   email: z
     .string()
     .min(1, { message: "Email é obrigatório" })
@@ -32,11 +34,11 @@ const formSchema = z.object({
     .string()
     .min(8, { message: "Senha deve ter no mínimo 8 caracteres" }),
 });
-export default function Login() {
-  const router = useRouter()
+export default function Register() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      name: "",
       email: "",
       password: "",
     },
@@ -44,38 +46,61 @@ export default function Login() {
 
   const [showPassword, setShowPassword] = React.useState(false);
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    const {email,password} = values
-   await authClient.signIn.email({
-    email,
-    password,
-    callbackURL: "/painel",
-   },
-  {
-    onError:(error)=> {
- 
-     if(error.error.message==='Invalid email or password'){
-      toast.error("Email ou senha inválidos")
-     }else{
-      toast.error("Erro ao fazer login")
-     }
-    },
-    onSuccess:()=> {
-      toast.success("Login realizado com sucesso")
-      router.push("/painel")
-    }
-  })
+  //durante o cadastro serao criada as categorias padroes
+const createCategoriesDefault = useAction(createCategoriesDefaultAction)
 
+
+//funcao pra criar uma conta padrão
+const createAccountDefault = useAction(upsertAccountWalletAction)
+
+
+  
+
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const { name, email, password } = values;
+   
+    await authClient.signUp.email(
+      {
+        email: email,
+        name: name,
+        password: password,
+        callbackURL: "/",
+      },
+      {
+        onSuccess: async() => {
+         await createCategoriesDefault.execute()
+         await createAccountDefault.execute({name:"Conta inicial", image: '/banks/wallet.png'})
+          toast.success("Cadastro realizado com sucesso");
+          form.reset();
+          redirect('/login')
+          
+        },
+        onError: (error: unknown) => {
+          const err = (error as { error?: { message?: string } }).error;
+
+          if (err?.message === "User already exists") {
+            toast.error("Email já cadastrado");
+          }else{
+            toast.error("Erro ao cadastrar");
+          }
+          
+        },
+      }
+    );
   }
 
-  async function handleGoogleSignIn(){
-    await authClient.signIn.social({
-       provider: "google",
-       callbackURL: "/painel"
-       })
-      
-     
-     }
+  async function handleGoogleSignIn() {
+   const user =  await authClient.signIn.social({
+      provider: "google",
+      callbackURL: "/painel"
+    });
+    if(user?.data?.url){}
+   
+  }
+
+
+
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-green-50 via-emerald-50 to-teal-100 p-4">
       <div className="w-full max-w-md">
@@ -95,13 +120,34 @@ export default function Login() {
                 />
               </div>
             </div>
-            <h1 className="text-2xl font-bold text-gray-800 mb-2">Bem-vindo de volta</h1>
-            <p className="text-gray-600 text-sm">Faça login para acessar sua conta</p>
+            <h1 className="text-2xl font-bold text-gray-800 mb-2">Criar conta</h1>
+            <p className="text-gray-600 text-sm">Junte-se ao Simplifica e organize suas finanças</p>
           </div>
 
           {/* Formulário */}
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-gray-700 font-medium">Nome Completo</FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                        <Input 
+                          placeholder="Seu nome completo" 
+                          {...field} 
+                          className="pl-10 h-12 border-gray-200 focus:border-green-500 focus:ring-green-500/20 transition-all duration-200"
+                        />
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
               <FormField
                 control={form.control}
                 name="email"
@@ -161,7 +207,7 @@ export default function Login() {
                 {form.formState.isSubmitting ? (
                   <div className="flex items-center gap-2">
                     <Loader2 className="w-4 h-4 animate-spin" />
-                    <span>Entrando...</span>
+                    <span>Criando conta...</span>
                   </div>
                 ) : form.formState.isSubmitSuccessful ? (
                   <div className="flex items-center gap-2">
@@ -169,7 +215,7 @@ export default function Login() {
                     <span>Sucesso!</span>
                   </div>
                 ) : (
-                  'Entrar'
+                  'Criar conta'
                 )}
               </Button>
             </form>
@@ -203,15 +249,15 @@ export default function Login() {
             </div>
           </Button>
 
-          {/* Link para registro */}
+          {/* Link para login */}
           <div className="text-center mt-8 pt-6 border-t border-gray-100">
             <p className="text-gray-600 text-sm">
-              Ainda não tem uma conta?{" "}
+              Já tem uma conta?{" "}
               <Link 
-                href="/register" 
+                href="/login" 
                 className="text-green-600 hover:text-green-700 font-medium transition-colors duration-200"
               >
-                Criar conta
+                Fazer login
               </Link>
             </p>
           </div>
