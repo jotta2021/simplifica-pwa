@@ -7,7 +7,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { contexts } from "@/contexts/context";
-import { Bell, ChevronUp, LogOut, Moon,  Sun, User } from "lucide-react";
+import { Bell, ChevronUp, LogOut, Moon,  Sun, User, MessageCircle } from "lucide-react";
 import { useContext } from "react";
 import { Badge } from "@/components/ui/badge";
 import { useAction } from "next-safe-action/hooks";
@@ -45,6 +45,12 @@ async function ReadyNotifications(){
           },
         },
       });
+    }
+
+    function handleSimplificaBotClick() {
+      const message = encodeURIComponent("Olá! Gostaria de saber mais sobre o SimplificaBot. Como posso começar?");
+      const whatsappUrl = `https://wa.me/558298427310?text=${message}`;
+      window.open(whatsappUrl, '_blank');
     }
   
     function getUserInitials(name?: string) {
@@ -120,6 +126,16 @@ async function ReadyNotifications(){
               <Button variant={"ghost"} className="w-full" onClick={() => router.push("/profile")}>
                 <User />
                 Meu Perfil
+              </Button>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Button 
+                variant={"ghost"} 
+                className="w-full bg-green-500 hover:bg-green-600 text-white border-2 border-green-400 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105" 
+                onClick={handleSimplificaBotClick}
+              >
+                <MessageCircle />
+                Simplifica Bot
               </Button>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>

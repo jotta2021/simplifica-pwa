@@ -12,6 +12,7 @@ import {
   User2,
   Wallet,
   User,
+  MessageCircle,
 } from "lucide-react";
 import {
   Sidebar,
@@ -74,6 +75,12 @@ const items = [
     url: "/profile",
     icon: User,
   },
+  {
+    title: "SimplificaBot",
+    url: "#",
+    icon: MessageCircle,
+    isExternal: true,
+  },
 ];
 
 export  function Header() {
@@ -94,6 +101,12 @@ export  function Header() {
     
   }, [darkMode]);
 
+  const handleSimplificaBotClick = () => {
+    const message = encodeURIComponent("Olá! Gostaria de saber mais sobre o SimplificaBot. Como posso começar?");
+    const whatsappUrl = `https://wa.me/558298427310?text=${message}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
   return (
     <Sidebar collapsible='icon'>
       <SidebarHeader  >
@@ -111,10 +124,20 @@ export  function Header() {
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title} >
-                  <SidebarMenuButton asChild isActive={pathname === item.url} >
-                    <a href={item.url} >
+                  <SidebarMenuButton 
+                    asChild 
+                    isActive={pathname === item.url}
+                    onClick={item.isExternal ? handleSimplificaBotClick : undefined}
+                    className={item.isExternal ? "bg-green-500 hover:bg-green-600 text-white border-2 border-green-400 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105" : ""}
+                  >
+                    <a href={item.url} className={item.isExternal ? "flex items-center gap-2" : ""}>
                       <item.icon />
                       <span>{item.title}</span>
+                      {item.isExternal && (
+                        <span className="ml-auto bg-green-400 text-green-900 text-xs px-2 py-1 rounded-full font-semibold">
+                          Novo
+                        </span>
+                      )}
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
