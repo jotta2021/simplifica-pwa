@@ -109,17 +109,10 @@ const LandingPage: React.FC = () => {
                 <Link href="/register">
                   <Button size="lg" className="bg-green-500 hover:bg-green-600 text-white">
                     <MessageCircle className="w-5 h-5 mr-2" />
-                    Conectar WhatsApp
+                    Teste grátis por 7 dias
                   </Button>
                 </Link>
-                <Button 
-                  variant="outline" 
-                  size="lg"
-                  onClick={() => scrollToSection('features')}
-                >
-                  <PlayCircle className="w-5 h-5 mr-2" />
-                  Ver Demo
-                </Button>
+              
               </div>
               
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start space-y-4 sm:space-y-0 sm:space-x-8 text-sm text-slate-500 dark:text-slate-400">
