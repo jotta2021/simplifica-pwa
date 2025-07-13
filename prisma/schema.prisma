@@ -17,6 +17,11 @@ model User {
   emailVerified  Boolean         @default(false)
   image          String?
   phone          String?
+  curentPlan String? //nome do plano
+  subscriptionId String? //id da assinatura no stripe
+  subscriptionStatus String? // // se ta pago oun nao
+  trial Boolean? @default(true) //se ta em periodo de teste
+  renewAt DateTime? //proxima data de renovação
   accountWallets AccountWallet[]
   categories     Category[]
   creditsCard    CreditCard[]

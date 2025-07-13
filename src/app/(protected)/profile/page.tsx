@@ -13,7 +13,7 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import ProfileForm from "./_components/profile-form";
-
+import Plan from "./_components/plans";
 const Profile = async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
@@ -48,7 +48,18 @@ const Profile = async () => {
         </ContentHeader>
       </ContainerPageHeader>
       <ContentPage>
-        <ProfileForm user={user} />
+        <div className="flex flex-col items-start gap-8 w-full  mx-auto">
+          <div className="w-full">
+            <ProfileForm user={user} />
+          </div>
+          <div className="w-full flex flex-col items-start mt-8">
+            <h2 className="text-xl font-semibold mb-4 text-center">Plano Atual</h2>
+            <Plan />
+            <span className="mt-4 px-4 py-2 rounded bg-green-100 text-green-800 font-bold text-sm text-center">
+             Próxima cobrança acontecerá  em 27/06/2025
+            </span>
+          </div>
+        </div>
       </ContentPage>
     </ContainerPage>
   );

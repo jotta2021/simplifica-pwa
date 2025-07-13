@@ -116,7 +116,7 @@ const ProfileForm = ({ user }: ProfileFormProps) => {
 
   
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className=" w-full">
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -130,7 +130,7 @@ const ProfileForm = ({ user }: ProfileFormProps) => {
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Avatar Section */}
-            <div className="flex flex-col items-center space-y-4">
+            <div className="flex flex-col  space-y-4">
               <div className="relative">
                 <Avatar className="w-24 h-24">
                   {formData.image ? (
