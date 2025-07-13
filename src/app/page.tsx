@@ -118,7 +118,7 @@ const LandingPage: React.FC = () => {
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start space-y-4 sm:space-y-0 sm:space-x-8 text-sm text-slate-500 dark:text-slate-400">
                 <div className="flex items-center">
                   <CheckCircle className="w-4 h-4 mr-2 text-green-500" />
-                  Gratuito para sempre
+                  Comece sem pagar nada
                 </div>
                 <div className="flex items-center">
                   <Shield className="w-4 h-4 mr-2 text-green-500" />
@@ -489,15 +489,19 @@ const LandingPage: React.FC = () => {
                   </div>
                   <div className="flex items-center">
                     <CheckCircle className="w-4 h-4 mr-3 text-green-500" />
-                    <span className="text-sm">Múltiplas contas</span>
+                    <span className="text-sm">Cadastro de contas e cartões</span>
+                  </div>
+                  <div className="flex items-center">
+                    <CheckCircle className="w-4 h-4 mr-3 text-green-500" />
+                    <span className="text-sm">Categorização inteligente</span>
                   </div>
                   <div className="flex items-center">
                     <CheckCircle className="w-4 h-4 mr-3 text-green-500" />
                     <span className="text-sm">Suporte por e-mail</span>
                   </div>
                 </div>
-                <Link href="/register">
-                  <Button variant="outline" className="w-full">
+                <Link href="/register" >
+                  <Button variant="outline" className="w-full my-2">
                     Começar Mensal
                   </Button>
                 </Link>
@@ -537,7 +541,11 @@ const LandingPage: React.FC = () => {
                   </div>
                   <div className="flex items-center">
                     <CheckCircle className="w-4 h-4 mr-3 text-green-500" />
-                    <span className="text-sm">Múltiplas contas</span>
+                    <span className="text-sm">Cadastro de contas e cartões</span>
+                  </div>
+                  <div className="flex items-center">
+                    <CheckCircle className="w-4 h-4 mr-3 text-green-500" />
+                    <span className="text-sm">Categorização inteligente</span>
                   </div>
                   <div className="flex items-center">
                     <CheckCircle className="w-4 h-4 mr-3 text-green-500" />
@@ -545,7 +553,7 @@ const LandingPage: React.FC = () => {
                   </div>
                 </div>
                 <Link href="/register">
-                  <Button className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold">
+                  <Button className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold my-2">
                     Escolher Anual
                   </Button>
                 </Link>
