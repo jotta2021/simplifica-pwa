@@ -14,6 +14,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import ProfileForm from "./_components/profile-form";
 import Plan from "./_components/plans";
+import { format } from "date-fns";
 const Profile = async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
@@ -32,6 +33,7 @@ const Profile = async () => {
   if (!user) {
     redirect("/login");
   }
+  
 
   return (
     <ContainerPage>
@@ -54,9 +56,9 @@ const Profile = async () => {
           </div>
           <div className="w-full flex flex-col items-start mt-8">
             <h2 className="text-xl font-semibold mb-4 text-center">Plano Atual</h2>
-            <Plan />
+            <Plan  userId={session.user.id}/>
             <span className="mt-4 px-4 py-2 rounded bg-green-100 text-green-800 font-bold text-sm text-center">
-             Próxima cobrança acontecerá  em 27/06/2025
+             Próxima cobrança acontecerá  em {session?.user?.renewAt && format(session?.user.renewAt, 'dd/MM/yyyy') }
             </span>
           </div>
         </div>

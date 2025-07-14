@@ -9,4 +9,9 @@ export const profileSchema = z.object({
   }),
   phone: z.string().optional(),
   image: z.string().optional(),
+  curentPlan: z.string().optional(),
+  subscriptionId: z.string().optional(),
+  subscriptionStatus: z.string().optional(),
+  trial: z.boolean().optional(),
+  renewAt: z.date().optional(),
 }); 

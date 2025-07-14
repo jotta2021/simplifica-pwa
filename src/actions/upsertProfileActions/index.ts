@@ -7,7 +7,7 @@ import { profileSchema } from './schema';
 import { headers } from 'next/headers';
 import { revalidatePath } from 'next/cache';
 
-const upsertProfileActions = actionClient.schema(profileSchema).action(async ({parsedInput: {name, email, phone, image}}) => {
+const upsertProfileActions = actionClient.schema(profileSchema).action(async ({parsedInput: {name, email, phone, image, curentPlan, subscriptionId, subscriptionStatus, trial, renewAt}}) => {
     const session = await auth.api.getSession({
         headers: await headers()
     })
@@ -40,6 +40,11 @@ const upsertProfileActions = actionClient.schema(profileSchema).action(async ({p
             email,
             phone: phone || null,
             image: image || null,
+            curentPlan: curentPlan || null,
+            subscriptionId: subscriptionId || null,
+            subscriptionStatus: subscriptionStatus || null,
+            trial: trial !== undefined ? trial : null,
+            renewAt: renewAt || null,
         },
     });
 
@@ -53,6 +58,11 @@ const upsertProfileActions = actionClient.schema(profileSchema).action(async ({p
             email: updatedUser.email,
             phone: updatedUser.phone,
             image: updatedUser.image,
+            curentPlan: updatedUser.curentPlan,
+            subscriptionId: updatedUser.subscriptionId,
+            subscriptionStatus: updatedUser.subscriptionStatus,
+            trial: updatedUser.trial,
+            renewAt: updatedUser.renewAt,
         },
     };
 })
