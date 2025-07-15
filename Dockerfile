@@ -1,23 +1,40 @@
-# Use node como base
-FROM node:18-alpine
+# Etapa 1: Build
+FROM node:20-alpine AS builder
 
-# Diretório de trabalho dentro do container
 WORKDIR /app
 
-# Copia package.json e package-lock.json (ou yarn.lock)
-COPY package*.json ./
-
-# Instala dependências
-RUN npm install
+# Copia apenas os arquivos necessários para instalar dependências
+COPY package.json package-lock.json* ./
+RUN npm ci
 
 # Copia o restante do código
 COPY . .
 
-# Build do Next.js
+# Gera o Prisma Client antes do build (garante que está atualizado)
+RUN npx prisma generate
+
+# Gera o build de produção
 RUN npm run build
 
-# Expõe a porta que o Next roda
+# Etapa 2: Produção
+FROM node:20-alpine AS runner
+
+WORKDIR /app
+
+# Copia apenas os arquivos necessários do build
+COPY --from=builder /app/package.json ./
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/next.config.js ./
+COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/lib ./lib
+
+# Se usar o Prisma Client, gere o client em build ou ajuste conforme necessário
+
+ENV NODE_ENV=production
+
 EXPOSE 3000
 
-# Comando para rodar o app
-CMD ["npm", "start"]
+# Roda as migrations no start e depois inicia a aplicação
+CMD npx prisma migrate deploy && npm start
