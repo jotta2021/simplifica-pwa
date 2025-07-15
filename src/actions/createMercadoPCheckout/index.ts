@@ -1,7 +1,9 @@
 'use server'
+import { auth } from "@/lib/auth";
 import { actionClient } from "@/lib/safe-action";
 import { addDays } from "date-fns";
 import { MercadoPagoConfig, Order ,PreApproval} from "mercadopago";
+import { headers } from "next/headers";
 import { z } from "zod";
 export const CreateCheckoutMercadoP = actionClient.schema(z.object({
     userId: z.string(),
@@ -9,6 +11,10 @@ export const CreateCheckoutMercadoP = actionClient.schema(z.object({
 })).action(async ({parsedInput:{userId,plan}})=> {
 
     try{
+const session =await  auth.api.getSession({
+    headers: await headers()
+})
+
       const client = new MercadoPagoConfig({
     accessToken: process.env.MERCADO_PAGO_ACCESS_TOKEN as string,
     options: {timeout:5000}
@@ -28,7 +34,7 @@ const subscription = await new PreApproval(client).create({
            
         },
         back_url:`${process.env.NEXT_PUBLIC_URL}/profile`,
-       payer_email: 'test_user_764203490@testuser.com',
+       payer_email:session?.user.email,
        external_reference: JSON.stringify({userId:userId, plan:plan })
     }
 

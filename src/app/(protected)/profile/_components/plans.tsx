@@ -107,7 +107,7 @@ cancelSubscriptionAction.execute({userId: user.id})
 
 
   return (
-    <div>
+    <div className="max-md:w-full">
       {activePlan ? (
         <div className="max-md:w-full max-w-screen-md grid grid-cols-2 gap-4 max-md:grid-cols-1">
           <Card
