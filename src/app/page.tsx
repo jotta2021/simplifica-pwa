@@ -1,6 +1,6 @@
 
 'use client'
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -29,6 +29,9 @@ import {
 } from 'lucide-react';
 import Image from 'next/image';
 
+import { authClient } from '@/lib/auth-client';
+import { redirect } from 'next/navigation';
+
 const LandingPage: React.FC = () => {
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -38,7 +41,20 @@ const LandingPage: React.FC = () => {
         block: 'start'
       });
     }
-  };
+  }
+
+
+useEffect(()=> {
+  async function getSession(){
+      const session = await authClient.getSession()
+     
+      if(session.data?.user){
+        redirect('/painel')
+      }
+  }
+getSession()
+
+},[])
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800">
