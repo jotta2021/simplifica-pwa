@@ -16,10 +16,10 @@ model User {
   name           String
   emailVerified  Boolean         @default(false)
   image          String?
-  phone          String?
+  phone          String? @unique
   curentPlan String? //nome do plano
   subscriptionId String? //id da assinatura no stripe
-  stripeCustomerId String?
+  mercagoPagoUserId String?
   subscriptionStatus String? // // se ta pago oun nao
   trial Boolean? @default(true) //se ta em periodo de teste
   renewAt DateTime? //proxima data de renovação

@@ -69,8 +69,9 @@ plugins:[
           renewAt: userId?.renewAt,
           trial:userId?.trial,
           subscriptionId: userId?.subscriptionId,
-          subscriptionStatus:userId?.subscriptionStatus
-          
+          subscriptionStatus:userId?.subscriptionStatus,
+          curentPlan: userId?.curentPlan,
+
           
         
       },

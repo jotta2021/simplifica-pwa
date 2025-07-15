@@ -22,11 +22,13 @@ export const createStripeCheckout = actionClient.schema(z.object({
 
   const sessionStripe = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
+    mode:'subscription',
     success_url: `${process.env.NEXT_PUBLIC_URL}/profile`,
     cancel_url: `${process.env.NEXT_PUBLIC_URL}/profile`,
     subscription_data: {
       metadata: {
         userId: session?.user.id,
+        plan: plan
       },
     },
     line_items: [

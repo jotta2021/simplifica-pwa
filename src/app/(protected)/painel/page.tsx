@@ -317,10 +317,14 @@ const Painel = async () => {
             />
           </div>
         </ContentHeader>
-        <QuickAcess categories={categories as Category[]} />
+        <div className="flex items-end justify-end">
+          <QuickAcess categories={categories as Category[]} />
+        </div>
       </ContainerPageHeader>
       <ContentPage>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6  ">
+   
+      
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6  ">
           <CardeResumes
             title="Saldo Atual"
             nowMonth={saldoAtual}

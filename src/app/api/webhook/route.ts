@@ -2,6 +2,7 @@ import { request } from "http";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { prisma } from "../../../../lib/prisma";
+import { addDays } from "date-fns";
 
 
 
@@ -36,11 +37,12 @@ case 'invoice.paid': {
 if(!event.data.object.id){
     throw new Error()
 }
-const {subscription, subscription_details,customer} = await  event.data.object.object as unknown as {
+const {subscription, subscription_details,customer} = await  event.data.object as unknown as {
     subscription : string;
     subscription_details:{
         metadata:{
             userId:string
+            plan:string
         };
 
     },
@@ -52,6 +54,7 @@ if(!subscription){
     throw new Error()
 }
 const userId = subscription_details.metadata.userId
+const plan = subscription_details.metadata.plan
 
 const user = await prisma.user.findFirst({
     where:{
@@ -59,7 +62,10 @@ const user = await prisma.user.findFirst({
     },
 })
 
-console.log(subscription)
+console.log("subscription",subscription)
+// nova data de renovação
+const renewAt = plan === 'mensal' ?  addDays(new Date(user?.renewAt ?? new Date()),30) : addDays(new Date(user?.renewAt ?? new Date()),365)
+
 
 await prisma.user.update({
     where:{
@@ -67,8 +73,12 @@ await prisma.user.update({
     },
     data: {
         subscriptionId: subscription,
-        stripeCustomerId:customer,
+        //stripeCustomerId:customer,
         trial:false,
+        renewAt:renewAt,
+        subscriptionStatus:'ACTIVE',
+        curentPlan: plan
+        
        
 
 
@@ -92,7 +102,9 @@ case 'customer.subscription.deleted' :{
         },
         data: {
             subscriptionId: null,
-            stripeCustomerId:null,
+            //stripeCustomerId:null,
+            subscriptionStatus:'INACTIVE',
+            curentPlan:null
         }
     })
     

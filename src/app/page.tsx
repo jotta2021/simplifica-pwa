@@ -519,11 +519,11 @@ const LandingPage: React.FC = () => {
               <CardHeader className="text-center">
                 <CardTitle className="text-2xl">Plano Anual</CardTitle>
                 <div className="text-3xl font-bold text-slate-900 dark:text-white">
-                  12x de R$ 20,82
+                   R$ 14,99
                   <span className="text-sm font-normal text-slate-500 dark:text-slate-400">/mês</span>
                 </div>
                 <div className="text-sm text-green-600 dark:text-green-400 font-medium">
-                  Economia de R$ 50,04 por ano
+                  179,99/ano
                 </div>
                 <CardDescription>
                   Economize pagando anualmente
