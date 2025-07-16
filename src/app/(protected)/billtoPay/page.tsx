@@ -18,11 +18,16 @@ import HeaderFilter from "./_components/headerFilter";
 import { subDays, startOfDay, endOfDay } from "date-fns";
 import MobileBills from "./_components/mobile-bills";
 
-export default async function BillToPayPage({ searchParams }: { searchParams?: { [key: string]: string | string[] } }) {
+type SearchParams  = Promise<{[filter:string]:string | string[] | undefined}>
+
+export default async function BillToPayPage(props:{
+  searchParams: SearchParams
+}) {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session?.user?.id) {
     redirect("/login");
   }
+  const searchParams = await props.searchParams
 
   // Filtro de período
   const rawFilter = searchParams?.filter;
