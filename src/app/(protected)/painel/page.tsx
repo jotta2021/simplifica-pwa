@@ -23,6 +23,8 @@ import AccountWalletsSection from "./_components/AccountWalletsSection";
 import ButtonActionMobile from "./_components/buttonActionMobile";
 import CreditCardsSection from "./_components/CreditCardsSection";
 import { CreditCard } from "@/app/@types/creditCard";
+import { gerarContasFixasParaOMesAction } from "@/actions/getBillsFixed";
+import { useAction } from "next-safe-action/hooks";
 
 
 type Transaction = {
@@ -46,6 +48,7 @@ const Painel = async () => {
   if (!session?.user?.id) {
     redirect("/login");
   }
+  const now = new Date();
 
   let categories = await prisma.category.findMany({
     where: {
@@ -107,7 +110,6 @@ const Painel = async () => {
   }
 
   //mes atual
-  const now = new Date();
   const startofMonth = new Date(now.getFullYear(), now.getMonth(), 1);
   const endofMonth = new Date(
     now.getFullYear(),
@@ -289,6 +291,10 @@ const Painel = async () => {
       categoryId: expense.categoryId ?? undefined,
     })),
   }));
+
+
+
+
 
   return (
     <ContainerPage>

@@ -13,6 +13,7 @@ import {
   Wallet,
   User,
   MessageCircle,
+  NotebookPen,
 } from "lucide-react";
 import {
   Sidebar,
@@ -29,11 +30,11 @@ import {
 } from "@/components/ui/sidebar";
 import Image from "next/image";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
 import { usePathname, redirect } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
@@ -65,6 +66,7 @@ const items = [
     url: "/planing",
     icon: Calendar,
   },
+  // Removido o item 'A pagar' daqui para renderizar manualmente como Accordion
   {
     title: "Contas/Cartões",
     url: "/accounts",
@@ -74,12 +76,6 @@ const items = [
     title: "Meu Perfil",
     url: "/profile",
     icon: User,
-  },
-  {
-    title: "SimplificaBot",
-    url: "#",
-    icon: MessageCircle,
-    isExternal: true,
   },
 ];
 
@@ -127,21 +123,61 @@ export  function Header() {
                   <SidebarMenuButton 
                     asChild 
                     isActive={pathname === item.url}
-                    onClick={item.isExternal ? handleSimplificaBotClick : undefined}
-                    className={item.isExternal ? "bg-green-500 hover:bg-green-600 text-white border-2 border-green-400 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105" : ""}
+                    
                   >
-                    <a href={item.url} className={item.isExternal ? "flex items-center gap-2" : ""}>
+                    <a href={item.url} >
                       <item.icon />
                       <span>{item.title}</span>
-                      {item.isExternal && (
-                        <span className="ml-auto bg-green-400 text-green-900 text-xs px-2 py-1 rounded-full font-semibold">
-                          Novo
-                        </span>
-                      )}
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+
+              {/* Botão do SimplificaBot renderizado manualmente */}
+             
+
+              <Accordion type="single" collapsible className="w-full">
+                <AccordionItem value="billtoPay">
+                  <AccordionTrigger className=" px-2 py-2">
+                    <div className="flex items-center gap-2  ">
+                      
+                        <NotebookPen size={16} />
+                    <span>A pagar</span>
+                      </div>
+                  
+                  </AccordionTrigger>
+                  <AccordionContent className="pl-8 flex flex-col gap-1">
+                    <SidebarMenuItem>
+                      <SidebarMenuButton asChild isActive={pathname === "/billtoPay/fixed"}>
+                        <a href="/billstoFixed">Contas fixas</a>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                      <SidebarMenuButton asChild isActive={pathname === "/billtoPay"}>
+                        <a href="/billtoPay">Contas a pagar</a>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  onClick={handleSimplificaBotClick}
+                  className="bg-green-500 hover:bg-green-600 text-white border-2 border-green-400 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105 flex items-center gap-2"
+                >
+                  <button type="button" className="flex items-center gap-2 w-full">
+                    <MessageCircle className="mr-2" />
+                    <span>SimplificaBot</span>
+                    <span className="ml-auto bg-green-400 text-green-900 text-xs px-2 py-1 rounded-full font-semibold">
+                      Novo
+                    </span>
+                  </button>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+             
+
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

@@ -1,6 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
-  binaryTargets = ["native", "linux-musl"]
+  provider      = "prisma-client-js"
+   output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -9,28 +9,30 @@ datasource db {
 }
 
 model User {
-  id             String          @id @default(uuid())
-  email          String          @unique
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
-  name           String
-  emailVerified  Boolean         @default(false)
-  image          String?
-  phone          String? @unique
-  curentPlan String? //nome do plano
-  subscriptionId String? //id da assinatura no stripe
-  mercagoPagoUserId String?
-  subscriptionStatus String? // // se ta pago oun nao
-  trial Boolean? @default(true) //se ta em periodo de teste
-  renewAt DateTime? //proxima data de renovação
-  accountWallets AccountWallet[]
-  categories     Category[]
-  creditsCard    CreditCard[]
-  notifications  Notification[]
-  plans          Plans[]
-  transactions   Transactions[]
-  accounts       Account[]
-  sessions       Session[]
+  id                 String          @id @default(uuid())
+  email              String          @unique
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
+  name               String
+  emailVerified      Boolean         @default(false)
+  image              String?
+  phone              String?         @unique
+  curentPlan         String?
+  renewAt            DateTime?
+  subscriptionId     String?
+  subscriptionStatus String?
+  trial              Boolean?        @default(true)
+  mercagoPagoUserId  String?
+  accountWallets     AccountWallet[]
+  categories         Category[]
+  creditsCard        CreditCard[]
+  fixedBill          FixedBill[]
+  bills  Bill[]
+  notifications      Notification[]
+  plans              Plans[]
+  transactions       Transactions[]
+  accounts           Account[]
+  sessions           Session[]
 
   @@map("user")
 }
@@ -47,6 +49,7 @@ model Category {
   amountLimit        Float?
   user               User                @relation(fields: [userId], references: [id], onDelete: Cascade)
   creditCardExpenses CreditCardExpense[]
+  fixedBill          FixedBill[]
   transactions       Transactions[]
 }
 
@@ -147,6 +150,38 @@ model Notification {
   updatedAt DateTime @updatedAt
   userId    String
   user      User     @relation(fields: [userId], references: [id])
+}
+
+/// contas fixas
+model FixedBill {
+  id         String    @id @default(uuid())
+  title      String
+  amount     Float
+  dueDay     Int
+  categoryId String?
+  userId     String
+  active     Boolean   @default(true)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  bills      Bill[]
+  category   Category? @relation(fields: [categoryId], references: [id])
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Bill {
+  id            String     @id @default(uuid())
+  fixedBillId   String?
+  dueDate       DateTime
+  amount        Float
+  paid          Boolean    @default(false)
+  paidAt        DateTime?
+  transactionId String?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  description   String
+  userId String
+   user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fixedBill     FixedBill? @relation(fields: [fixedBillId], references: [id], onDelete: Cascade)
 }
 
 model Session {
