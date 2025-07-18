@@ -186,7 +186,7 @@ model Bill {
 }
 
 model Reminder {
-  id          String   @id @default(uuid())
+  id           String         @id @default(dbgenerated("gen_random_uuid()"))
   description String
   date_hour   DateTime
   createdAt   DateTime @default(now())
