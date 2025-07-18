@@ -20,7 +20,7 @@ const daysDistance = user?.renewAt && formatDistanceToNowStrict(new Date(user?.r
     locale:ptBR,
 })
 
-console.log(daysDistance)
+
     return (
 
         <div className='w-full'>
@@ -30,7 +30,7 @@ console.log(daysDistance)
 {isTrialActive && 
     <div className="bg-gradient-to-r from-green-100 via-green-200 to-green-300  h-full text-sm w-[60%] p-2 rounded-sm text-green-600 font-medium">
     <p className="max-md:hidden">Período de testes ativo. Faltam {daysDistance} para acabar!</p>
-    <p className="hidden max-md:flex">Período de testes</p>
+    <p className="hidden max-md:flex">Em teste</p>
     </div> 
 }
 </div>

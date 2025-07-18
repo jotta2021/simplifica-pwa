@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "Bill" ALTER COLUMN "id" DROP DEFAULT;
+
+-- AlterTable
+ALTER TABLE "FixedBill" ALTER COLUMN "id" DROP DEFAULT;

@@ -14,6 +14,8 @@ import {
   User,
   MessageCircle,
   NotebookPen,
+  CalendarClock,
+  WalletCards,
 } from "lucide-react";
 import {
   Sidebar,
@@ -66,11 +68,21 @@ const items = [
     url: "/planing",
     icon: Calendar,
   },
+  {
+    title: "Lembretes",
+    url: "/reminder",
+    icon: CalendarClock,
+  },
   // Removido o item 'A pagar' daqui para renderizar manualmente como Accordion
   {
     title: "Contas/Cartões",
     url: "/accounts",
     icon: Wallet,
+  },
+  {
+    title: "Assinatura",
+    url: "/subscription",
+    icon: WalletCards,
   },
   {
     title: "Meu Perfil",

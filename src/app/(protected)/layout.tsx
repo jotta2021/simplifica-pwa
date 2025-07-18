@@ -19,7 +19,7 @@ const LayoutProtected  = ({children,types}:{children:React.ReactNode,types:React
           <HeaderTop/>
         {children}
         </main>
-        <TabBarMobile/>
+        
       </PlanExpiredProvider>
     </SidebarProvider>
   )

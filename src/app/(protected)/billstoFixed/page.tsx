@@ -56,7 +56,7 @@ export default async function BillstoFixedPage() {
         <div className="block md:hidden">
           <MobileFixedBills fixedBills={fixedBillsSafe} />
         </div>
-        <div className="hidden md:block hidden md:block bg-white dark:bg-neutral-800">
+        <div className="hidden md:block  ">
           <FixedBillTable columns={fixedBillColumns} data={fixedBillsSafe} />
         </div>
       </ContentPage>

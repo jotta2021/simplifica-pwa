@@ -1,6 +1,6 @@
 generator client {
-  provider      = "prisma-client-js"
-   output   = "../src/generated/prisma"
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -27,12 +27,13 @@ model User {
   categories         Category[]
   creditsCard        CreditCard[]
   fixedBill          FixedBill[]
-  bills  Bill[]
+  bills              Bill[]
   notifications      Notification[]
   plans              Plans[]
   transactions       Transactions[]
   accounts           Account[]
   sessions           Session[]
+  reminders          Reminder[]
 
   @@map("user")
 }
@@ -179,9 +180,20 @@ model Bill {
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
   description   String
-  userId String
-   user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        String
+  user          User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   fixedBill     FixedBill? @relation(fields: [fixedBillId], references: [id], onDelete: Cascade)
+}
+
+model Reminder {
+  id          String   @id @default(uuid())
+  description String
+  date_hour   DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  sent        Boolean  @default(false)
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Session {

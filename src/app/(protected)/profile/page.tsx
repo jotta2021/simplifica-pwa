@@ -54,27 +54,7 @@ const Profile = async () => {
           <div className="w-full">
             <ProfileForm user={user} />
           </div>
-          <div className="w-full flex flex-col items-start mt-8">
-            <h2 className="text-xl font-semibold mb-4 text-center">Assinatura</h2>
-            <Plan user={{
-              ...session.user,
-              subscriptionStatus: session.user.subscriptionStatus || undefined,
-              curentPlan: session.user.curentPlan || undefined
-            }}/>
-            {
-              session.user.subscriptionId &&
-               <span className="mt-4 px-4 py-2 rounded bg-green-100 text-green-800 font-bold text-sm text-center">
-             Próxima cobrança acontecerá  em {session?.user?.renewAt && format(session?.user.renewAt, 'dd/MM/yyyy') }
-            </span>
-            }
-                 {
-              session.user.renewAt  &&  ! session.user.subscriptionId && 
-               <span className="mt-4 px-4 py-2 rounded bg-green-100 text-green-800 font-bold text-sm text-center">
-             Seu acesso encerra  em {session?.user?.renewAt && format(session?.user.renewAt, 'dd/MM/yyyy') }
-            </span>
-            }
-           
-          </div>
+        
         </div>
       </ContentPage>
     </ContainerPage>

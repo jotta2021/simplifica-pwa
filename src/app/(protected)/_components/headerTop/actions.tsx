@@ -7,17 +7,18 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { contexts } from "@/contexts/context";
-import { Bell, ChevronUp, LogOut, Moon,  Sun, User, MessageCircle } from "lucide-react";
+import { Bell, ChevronUp, LogOut, Moon,  Sun, User, MessageCircle, Menu } from "lucide-react";
 import { useContext } from "react";
 import { Badge } from "@/components/ui/badge";
 import { useAction } from "next-safe-action/hooks";
 import { markAllNotificationsRead } from "@/actions/upsertNotificationsActions";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {  SidebarMenuButton } from "@/components/ui/sidebar";
+import {  SidebarMenuButton, useSidebar } from "@/components/ui/sidebar";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
 import { redirect, useRouter } from "next/navigation";
+
 
 
 interface Props {
@@ -64,8 +65,13 @@ async function ReadyNotifications(){
       // Otherwise, take first letter of first two words
       return (words[0][0] + words[1][0]).toUpperCase();
     }
+
   return (
     <div className="w-full flex justify-end items-center bg-white dark:bg-neutral-900 gap-4 text-gray-700 dark:text-white">
+    
+   
+
+   
     <button
     className="hidden max-md:flex"
       
@@ -114,7 +120,8 @@ async function ReadyNotifications(){
                 }
               
               </Avatar>
-               {session?.data?.user?.name}
+              <p className="max-md:hidden"> {session?.data?.user?.name}</p>
+              
               <ChevronUp className="ml-auto" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>

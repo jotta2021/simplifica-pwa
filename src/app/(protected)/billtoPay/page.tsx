@@ -112,7 +112,7 @@ export default async function BillToPayPage(props:{
         <div className="block md:hidden">
           <MobileBills bills={bills} />
         </div>
-        <div className="hidden md:block bg-white dark:bg-neutral-800">
+        <div className="hidden md:block ">
           <BillTable columns={billColumns} data={bills} />
         </div>
       </ContentPage>
