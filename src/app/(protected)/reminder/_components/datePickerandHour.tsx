@@ -19,34 +19,84 @@ interface Props{
     date: Date | undefined
     setDate: (value:Date)=> void;
 }
+
+// Função para normalizar o formato de tempo
+const normalizeTimeFormat = (timeString: string): string => {
+  const parts = timeString.split(":")
+  
+  // Se tem apenas hora e minuto (HH:mm)
+  if (parts.length === 2) {
+    return `${timeString}:00`
+  }
+  
+  // Se tem hora, minuto e segundo (HH:mm:ss)
+  if (parts.length === 3) {
+    return timeString
+  }
+  
+  // Fallback para formato padrão
+  return "10:30:00"
+}
+
+// Função para extrair horas, minutos e segundos de forma segura
+const extractTimeParts = (timeString: string): { hours: number; minutes: number; seconds: number } => {
+  const normalizedTime = normalizeTimeFormat(timeString)
+  const [hours, minutes, seconds] = normalizedTime.split(":").map(Number)
+  
+  return {
+    hours: isNaN(hours) ? 10 : hours,
+    minutes: isNaN(minutes) ? 30 : minutes,
+    seconds: isNaN(seconds) ? 0 : seconds
+  }
+}
+
 export function DatePickerAndHour({ date, setDate }: Props) {
   const [open, setOpen] = React.useState(false)
   // Estado para a hora no formato "HH:mm:ss"
-  const [time, setTime] = React.useState(() => date ? format(date, 'HH:mm:ss') : "10:30:00")
+  const [time, setTime] = React.useState(() => {
+    if (date) {
+      return format(date, 'HH:mm:ss')
+    }
+    return "10:30:00"
+  })
 
   // Atualiza a data com a hora selecionada
   const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newTime = e.target.value
-    setTime(newTime)
-    if (date) {
-      const [hours, minutes, seconds] = newTime.split(":").map(Number)
-      const newDate = new Date(date)
-      newDate.setHours(hours)
-      newDate.setMinutes(minutes)
-      newDate.setSeconds(seconds)
-      setDate(newDate)
+    
+    // Só atualiza se o valor não estiver vazio
+    if (newTime) {
+      setTime(newTime)
+      
+      if (date) {
+        try {
+          const { hours, minutes, seconds } = extractTimeParts(newTime)
+          const newDate = new Date(date)
+          newDate.setHours(hours)
+          newDate.setMinutes(minutes)
+          newDate.setSeconds(seconds)
+          setDate(newDate)
+        } catch (error) {
+          console.error("Erro ao processar tempo:", error)
+        }
+      }
     }
   }
 
   // Quando a data mudar, mantém a hora selecionada
   const handleDateSelect = (selectedDate: Date | undefined) => {
     if (selectedDate) {
-      const [hours, minutes, seconds] = time.split(":").map(Number)
-      selectedDate.setHours(hours)
-      selectedDate.setMinutes(minutes)
-      selectedDate.setSeconds(seconds)
-      setDate(selectedDate)
-      setOpen(false)
+      try {
+        const { hours, minutes, seconds } = extractTimeParts(time)
+        const newDate = new Date(selectedDate)
+        newDate.setHours(hours)
+        newDate.setMinutes(minutes)
+        newDate.setSeconds(seconds)
+        setDate(newDate)
+        setOpen(false)
+      } catch (error) {
+        console.error("Erro ao processar data:", error)
+      }
     }
   }
 
