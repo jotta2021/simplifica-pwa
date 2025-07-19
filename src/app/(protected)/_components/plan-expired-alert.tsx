@@ -28,7 +28,7 @@ export function PlanExpiredAlert({ isOpen, onClose }: PlanExpiredAlertProps) {
   const handleRenewPlan = () => {
     // Fecha o modal e redireciona para a página de perfil onde estão os planos
     onClose();
-    router.push("/profile");
+    router.push("/subscription");
   };
 
   const handleClose = () => {
