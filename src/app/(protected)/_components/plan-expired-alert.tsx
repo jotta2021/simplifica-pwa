@@ -78,13 +78,13 @@ export function usePlanExpired() {
       const now = new Date();
       
       // Adiciona 2 dias de tolerância à data de renovação
-      const toleranceDays = 2;
+      const toleranceDays = 1;
       
       // Verifica se o usuário está em trial e a data de renovação + 2 dias já passou
       const isTrialExpired = Boolean(
         user.trial && 
         user.renewAt && 
-        new Date(user.renewAt).getTime() + (toleranceDays * 24 * 60 * 60 * 1000) < now.getTime()
+        new Date(user.renewAt).getTime() + ( 24 * 60 * 60 * 1000) < now.getTime()
       );
       
       // Verifica se o usuário não tem assinatura ativa
@@ -93,7 +93,7 @@ export function usePlanExpired() {
       // Verifica se a data de renovação + 2 dias passou e não há assinatura ativa
       const isRenewDatePassed = Boolean(
         user.renewAt && 
-        new Date(user.renewAt).getTime() + (toleranceDays * 24 * 60 * 60 * 1000) < now.getTime() && 
+        new Date(user.renewAt).getTime() + ( 24 * 60 * 60 * 1000) < now.getTime() && 
         hasNoActiveSubscription
       );
       

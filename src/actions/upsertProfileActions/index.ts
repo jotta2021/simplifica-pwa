@@ -40,11 +40,6 @@ const upsertProfileActions = actionClient.schema(profileSchema).action(async ({p
             email,
             phone: phone || null,
             image: image || null,
-            curentPlan: curentPlan || null,
-            subscriptionId: subscriptionId || null,
-            subscriptionStatus: subscriptionStatus || null,
-            trial: trial !== undefined ? trial : null,
-            renewAt: renewAt || null,
         },
     });
 
